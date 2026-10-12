@@ -1,0 +1,312 @@
+# FIND THE HACKER — TECH MAFIA
+## Programming Challenge & Attack System
+**Draft for Organizer Approval**
+
+**Event Date:** 15 October 2026  
+**Venue:** IAI Lab  
+**Department:** CSE / IT  
+**Team Size:** 4 members per team  
+**Programming Language:** C  
+**Target Audience:** First-year BTech students
+
+---
+
+## 1. GAME OVERVIEW
+
+Find the Hacker is a team-vs-team programming competition in which one team acts as the **Coder Team** and the opposing team acts as the **Detective Team**.
+
+The Coder Team receives a simple C programming problem and must develop a working solution. The Detective Team investigates the submitted code and uses a limited number of attack tokens to introduce programming errors.
+
+After the attack phase, the Coder Team must identify and repair the errors before the final submission deadline.
+
+The game tests basic programming, debugging, logical reasoning, teamwork, and decision-making under time pressure.
+
+## 2. TEAM STRUCTURE
+
+### 2.1 Coder Team
+
+All four members must contribute code to the final solution.
+
+| Player | Responsibility |
+|---|---|
+| Coder 1 | Input and input validation |
+| Coder 2 | Main calculation or algorithm |
+| Coder 3 | Conditional logic and special cases |
+| Coder 4 | Output, integration, and final testing |
+
+The exact task allocation may vary depending on the selected problem.
+
+### 2.2 Detective Team
+
+Each Detective has a designated attack specialty.
+
+| Player | Responsibility |
+|---|---|
+| Detective 1 | Input-handling attacks |
+| Detective 2 | Calculation attacks |
+| Detective 3 | Conditional-logic attacks |
+| Detective 4 | Output and integration attacks |
+
+Detectives may coordinate their attacks and target any eligible section of the program, subject to the rules announced by the organizer.
+
+---
+
+## 3. PROGRAMMING PROBLEMS
+
+All problems will use beginner-level C programming concepts. Problems must be solvable using basic input/output, variables, arithmetic operators, conditions, and loops.
+
+The organizer may select one problem per match from the following bank.
+
+### Problem 1: Simple Calculator
+
+Write a C program that accepts two numbers and an arithmetic operator and performs addition, subtraction, multiplication, or division.
+
+**Required tasks:**
+- Read the two numbers.
+- Read and validate the operator.
+- Perform the selected calculation.
+- Display the result and handle division by zero.
+
+**Concepts:** Input/output, arithmetic operators, `if-else`.
+
+### Problem 2: Student Marks Calculator
+
+Write a C program that accepts marks in three subjects, calculates the total and percentage, and determines whether the student passes or fails.
+
+For this problem, the student must score at least 40 marks in every subject to pass, and each subject's marks must be between 0 and 100.
+
+**Required tasks:**
+- Accept and validate marks.
+- Calculate the total.
+- Calculate the percentage.
+- Determine and display the result.
+
+**Concepts:** Variables, arithmetic, conditional statements.
+
+### Problem 3: Number Analyzer
+
+Write a C program that determines whether an integer is positive, negative, or zero, and whether it is even or odd.
+
+**Required tasks:**
+- Accept an integer.
+- Check its sign.
+- Check whether it is even or odd.
+- Display the results.
+
+**Concepts:** `if-else`, modulus operator.
+
+### Problem 4: Multiplication Table
+
+Write a C program that accepts an integer and displays its multiplication table from 1 to 10.
+
+**Required tasks:**
+- Read the number.
+- Generate the table using a loop.
+- Display the results in the required format.
+
+**Concepts:** `for` loop, arithmetic operators.
+
+### Problem 5: Largest of Three Numbers
+
+Write a C program that accepts three integers and displays the largest.
+
+**Required tasks:**
+- Read the three integers.
+- Compare the values.
+- Display the largest value.
+
+**Concepts:** Comparison operators, conditional statements.
+
+### Problem 6: Factorial Calculator
+
+Write a C program that calculates the factorial of a non-negative integer.
+
+**Required tasks:**
+- Read and validate the input.
+- Calculate the factorial using a loop.
+- Display the result.
+- Handle the special case of zero.
+
+**Concepts:** Loops, multiplication, input validation.
+
+---
+
+## 4. FOUR-PART CODING REQUIREMENT
+
+Each problem must be divided into four identifiable coding tasks.
+
+For example, in the Simple Calculator challenge:
+
+1. **Coder 1:** Implement the function for reading and validating input.
+2. **Coder 2:** Implement the operator-selection function.
+3. **Coder 3:** Implement the arithmetic calculation function.
+4. **Coder 4:** Implement the result-display function and integrate the program.
+
+The organizer must provide a task sheet specifying the function requirements for the selected problem.
+
+Each participant must write their own assigned code. All four contributions must be integrated into the final C program.
+
+A participant may assist teammates through discussion, but cannot complete all four modules on behalf of the team.
+
+---
+
+## 5. ATTACK TOKEN SYSTEM
+
+Each Detective Team receives **six shared attack tokens per match**.
+
+Tokens represent the team's limited attack resources. Detectives must coordinate their use and decide which attacks are worth attempting.
+
+### 5.1 Attack levels
+
+| Attack level | Token cost | Description |
+|---|---:|---|
+| Minor Bug | 1 token | Introduces a simple logic or boundary error |
+| Critical Bug | 2 tokens | Introduces a defect affecting an important calculation or decision |
+| Combo Attack | 3 tokens | Introduces two coordinated defects in separate eligible locations |
+
+The organizer must approve the permitted modifications and verify the effects of each attack.
+
+### 5.2 Token rules
+
+1. Six tokens are shared by all four Detectives.
+2. Every accepted attack consumes the applicable number of tokens.
+3. A proposed attack must introduce a demonstrable defect to count as successful.
+4. Random changes, formatting changes, and ineffective modifications earn no attack-success points.
+5. The same location cannot be repeatedly attacked without a repair or specific permission under the announced rules.
+6. Unused tokens expire at the end of the attack phase and cannot be transferred to another match.
+7. Every attack must be recorded in the official game workspace.
+
+The organizer must announce before the match whether a rejected attack consumes a token. The recommended rule is that rejected attacks do not consume tokens, but each attempt must still be recorded.
+
+---
+
+## 6. MATCH TIMELINE
+
+A standard match is planned for 20 minutes.
+
+| Phase | Duration |
+|---|---:|
+| Problem briefing | 1 minute |
+| Coding and initial integration | 9 minutes |
+| Detective attack phase | 2 minutes |
+| Debugging and repair | 5 minutes |
+| Final testing and verification | 3 minutes |
+| **Total** | **20 minutes** |
+
+The initial program must compile and pass the baseline test cases before the attack phase begins.
+
+The organizer records a copy of the baseline source code. The Detective Team then performs its approved attacks through the authorized workspace.
+
+After the attack phase closes, the Coder Team receives the designated repair period. The final version is submitted for judging.
+
+---
+
+## 7. ATTACK EXAMPLES
+
+The following examples illustrate permitted attack categories. The organizer must test every planted defect before the match.
+
+### Example A: Calculation Attack
+
+Original statement:
+
+`total = a + b;`
+
+A permitted attack changes the calculation so that the program produces an incorrect total.
+
+### Example B: Conditional Attack
+
+Original condition:
+
+`if (marks >= 40)`
+
+A permitted attack changes the comparison so that the program classifies a result incorrectly.
+
+### Example C: Boundary Attack
+
+Original condition:
+
+`if (marks >= 0 && marks <= 100)`
+
+A permitted attack changes the boundaries so that valid input values are rejected.
+
+### Example D: Output Attack
+
+A permitted attack changes the result-reporting logic so that the program displays an incorrect value despite calculating the correct result internally.
+
+Attacks must be restricted to the designated source code. The original version must remain available for recovery and judging.
+
+---
+
+## 8. SCORING SYSTEM
+
+The following scoring system is proposed for the Coder Team.
+
+| Coder evaluation | Maximum points |
+|---|---:|
+| Four modules implemented correctly | 20 |
+| Initial solution works before attacks | 10 |
+| Introduced errors correctly identified and repaired | 25 |
+| Final program passes hidden test cases | 20 |
+| Correct integration and output | 15 |
+| Individual participation and verification | 10 |
+| **Total** | **100** |
+
+The Detective Team receives a separate score.
+
+| Detective evaluation | Maximum points |
+|---|---:|
+| Four successful valid attacks, 10 points each | 40 |
+| Attacks that remain effective at the end of the initial debugging attempts | 20 |
+| Strategic targeting and diversity of attacks | 20 |
+| Accurate attack records and compliance | 10 |
+| Coordination and individual participation | 10 |
+| **Total** | **100** |
+
+An attack that does not demonstrably affect program behaviour earns no attack-success points.
+
+The organizers must announce how the two role-specific scores determine the match winner before the tournament begins. The Coder and Detective scores must not be compared directly without a predefined match-result rule.
+
+---
+
+## 9. FAIR PLAY RULES
+
+1. All participants must use the designated programming environment.
+2. Only the announced programming language and permitted resources may be used.
+3. The Coder Team must establish a working baseline before attacks begin.
+4. Detectives may modify only permitted sections of the code.
+5. No participant may tamper with the judging system, test harness, or scoring records.
+6. All attacks and repairs must be logged.
+7. Hidden test cases must be applied consistently to all teams in the same round.
+8. All four members must be prepared to explain their assigned contributions.
+9. Technical issues and disputes must be referred to the event coordinator or technical judge.
+10. The organizers' announced final rules will govern the event.
+
+---
+
+## 10. ORGANIZER CHECKLIST
+
+Before the event, organizers must prepare:
+
+- A bank of six beginner-level C programming problems.
+- Four-part task sheets for each selected problem.
+- Six attack tokens per Detective Team per match.
+- A defined list of permitted attack levels and modifications.
+- A controlled attack workspace and change log.
+- Original source-code backups.
+- Baseline and hidden test cases.
+- A match timer and submission procedure.
+- Separate scoring sheets for Coders and Detectives.
+- A dispute-resolution process.
+- A finalized tournament bracket and advancement criteria.
+
+A pilot match should be conducted before the event to confirm that the problem difficulty, attack opportunities, and repair time are suitable for first-year students.
+
+---
+
+## 11. FINAL GAME PRINCIPLE
+
+**The Coder Team must build a working program, defend it against deliberate errors, and restore its functionality. The Detective Team must use its limited attack tokens strategically to introduce valid programming defects.**
+
+Success depends on individual contribution, team coordination, effective attacks, and reliable debugging.
+
+**CODE IT. PROTECT IT. BREAK IT. SURVIVE IT.**

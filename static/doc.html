@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;family=Space+Grotesk:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "primary-fixed-dim": "#ffb3b0", "primary": "#ae2f34", "surface": "#fff9eb", "on-error-container": "#93000a", "outline-variant": "#e0bfbd", "on-primary-container": "#6d0010", "surface-bright": "#fff9eb", "on-tertiary-container": "#003268", "on-secondary-fixed-variant": "#544600", "on-background": "#1e1c10", "inverse-primary": "#ffb3b0", "secondary-container": "#fdde64", "on-primary-fixed": "#410006", "on-secondary-container": "#756100", "surface-container-lowest": "#ffffff", "secondary-fixed": "#ffe16d", "surface-dim": "#e0dac7", "surface-tint": "#ae2f34", "inverse-on-surface": "#f7f0dd", "error-container": "#ffdad6", "outline": "#8c706f", "inverse-surface": "#333023", "surface-container-high": "#efe8d4", "on-error": "#ffffff", "secondary": "#705d00", "tertiary-fixed-dim": "#a9c7ff", "error": "#ba1a1a", "tertiary": "#005db8", "on-secondary-fixed": "#221b00", "surface-variant": "#e9e2cf", "background": "#fff9eb", "surface-container": "#f4eeda", "tertiary-fixed": "#d6e3ff", "secondary-fixed-dim": "#e2c54e", "on-secondary": "#ffffff", "on-primary": "#ffffff", "primary-fixed": "#ffdad8", "on-tertiary": "#ffffff", "on-primary-fixed-variant": "#8c1520", "on-tertiary-fixed": "#001b3e", "surface-container-highest": "#e9e2cf", "on-surface": "#1e1c10", "tertiary-container": "#589bff", "surface-container-low": "#faf3df", "on-tertiary-fixed-variant": "#00468c", "primary-container": "#ff6b6b", "on-surface-variant": "#584140" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-xs": "0.25rem", "space-xl": "2.25rem", "space-sm": "0.5rem", "margin": "2.5rem", "space-lg": "1.5rem", "gutter": "1.5rem", "space-md": "1rem" }, "fontFamily": { "body-sm": [ "Plus Jakarta Sans" ], "headline-sm": [ "Space Grotesk" ], "label-md": [ "Space Grotesk" ], "label-sm": [ "Space Grotesk" ], "label-lg": [ "Space Grotesk" ], "headline-lg": [ "Space Grotesk" ], "code": [ "Space Grotesk" ], "body-md": [ "Plus Jakarta Sans" ], "headline-md": [ "Space Grotesk" ], "headline-xl": [ "Space Grotesk" ], "body-lg": [ "Plus Jakarta Sans" ] }, "fontSize": { "body-sm": [ "13px", { "lineHeight": "20px", "fontWeight": "500" } ], "headline-sm": [ "22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" } ], "label-md": [ "13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" } ], "label-sm": [ "11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" } ], "label-lg": [ "15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" } ], "headline-lg": [ "36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "code": [ "14px", { "lineHeight": "20px", "fontWeight": "600" } ], "body-md": [ "15px", { "lineHeight": "24px", "fontWeight": "500" } ], "headline-md": [ "28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" } ], "headline-xl": [ "48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "700" } ], "body-lg": [ "18px", { "lineHeight": "28px", "fontWeight": "500" } ] } } } };</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-b-[2.5px] border-on-background"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between"><div class="flex items-center gap-space-md"><img alt="NeoBrutalist Brand Mark" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1Uq4Xs6nYywD6zEVjLiP9alowEIwz8dLaBYeiid0o1PtG6SAammb01E1bcqNceD49PnrilFzyXscLMstrYT77hG2lPqqkamWu0ZXgBz4rRatI4Og8xKM8QWUWm8HCiP0SwcGu3MP-gmYjL04Jee_0-aUFzp-o5A0mUc5GTNJ33-jJQ3rUFE1UrqSus-DGdm1PquwwgzbJHyejIhbO8pbmBY8ByCKR_x_EYyBWEsWtEadqdJAjH3VvyYgoI"/><span class="font-headline-sm text-headline-sm text-on-background tracking-tight">BrutalUI</span><div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container border-[2px] border-on-background"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-on-secondary-container uppercase tracking-wider">STORY MODE LIVE</span></div></div><nav class="flex items-center gap-space-sm sm:gap-space-md" data-active-classes="bg-primary-container text-on-primary-container border-[2px] border-on-background"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-3 py-1.5 rounded transition-all" data-path="login" href="#">Login</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface px-3 py-1.5 rounded transition-all" data-path="register" href="#">Register</a><a aria-current="page" class="font-label-md px-3 py-1.5 rounded transition-all bg-primary-container text-on-primary-container border-[2px] border-on-background" data-path="docs" href="#">Docs</a></nav><div class="flex items-center gap-space-md"><a class="hidden md:inline-flex items-center font-label-sm text-label-sm text-on-surface border-[2px] border-on-background bg-surface-container-lowest px-3 py-1 rounded-full hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[3px_3px_0px_#1e1c10] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all" data-path="help-center" href="#">Help &amp; Support</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border-[2px] border-on-background"><span class="material-symbols-outlined text-on-primary text-[18px]">sports_esports</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full pb-16 px-4 sm:px-6 lg:px-12 max-w-7xl mx-auto space-y-14">
+<!-- ==================== 1. TOP HERO / FUNNY HOOK & DRAMATIC VS ARENA ==================== -->
+<section class="relative pt-6">
+<!-- Top Meta Strip -->
+<div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+<div class="flex flex-wrap items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary-container border-[2.5px] border-on-background font-label-sm text-label-sm text-on-secondary-container uppercase">
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+        ROUND 1: CODERS VS DETECTIVES (THE TECH MAFIA) 🥊⚡
+      </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-lowest border-[2.5px] border-on-background font-label-sm text-label-sm text-on-surface uppercase">
+        IAI LAB // BTECH EDITION
+      </span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container border-[2.5px] border-on-background font-label-sm text-label-sm text-on-primary-container font-bold">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+      OFFICIAL STORY MODE BATTLE LOG
+    </div>
+</div>
+<!-- Hero Banner Header -->
+<div class="bg-surface-container-lowest border-[3.5px] border-on-background rounded-2xl p-6 sm:p-10 space-y-6 relative overflow-hidden">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="space-y-3 max-w-3xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-secondary-fixed border-[2px] border-on-background font-label-sm text-label-sm text-on-secondary-fixed uppercase tracking-wider font-extrabold">
+          🕹️ RETRO BATTLE ROYALE MODE
+        </div>
+<h1 class="font-headline-xl text-3xl sm:text-5xl lg:text-[54px] leading-tight text-on-background font-extrabold tracking-tight">
+          CODERS VS DETECTIVES: <span class="bg-primary text-on-primary px-3 py-0.5 rounded-lg border-[3px] border-on-background">THE TECH MAFIA</span>
+</h1>
+<p class="font-body-lg text-lg sm:text-xl text-on-surface-variant font-medium">
+<strong class="text-on-surface underline decoration-primary decoration-4">The Burning Question:</strong> Can 4 innocent 1st-year C coders survive 2 minutes in a dark room with 4 evil bug-injecting detectives?
+        </p>
+</div>
+<!-- Quick Stats Widget -->
+<div class="flex flex-row sm:flex-col gap-3 min-w-[220px]">
+<div class="flex-1 bg-surface-container-low border-[2.5px] border-on-background p-3.5 rounded-xl">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Battle Stakes</div>
+<div class="font-headline-sm text-label-lg text-primary font-bold">Pride &amp; Glory (and 100 PTS)</div>
+</div>
+<div class="flex-1 bg-secondary-container/40 border-[2.5px] border-on-background p-3.5 rounded-xl">
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Danger Level</div>
+<div class="font-headline-sm text-label-lg text-on-surface font-bold">🚨 6 Sneaky Bug Coins</div>
+</div>
+</div>
+</div>
+<!-- DRAMATIC 'VS' FACE-OFF ARENA CARD -->
+<div class="relative bg-surface border-[3px] border-on-background rounded-xl p-6 sm:p-8 mt-4">
+<div class="grid grid-cols-1 lg:grid-cols-11 gap-6 items-center">
+<!-- BLUE CORNER: The Builders -->
+<div class="lg:col-span-5 bg-tertiary-fixed/40 border-[3px] border-on-background rounded-xl p-5 sm:p-6 space-y-3 relative">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold border-[1.5px] border-on-background">
+              🟦 BLUE CORNER // DEFENDERS
+            </span>
+<span class="text-2xl">🛡️</span>
+</div>
+<h3 class="font-headline-md text-2xl font-bold text-on-background">"The Builders" (Coders)</h3>
+<p class="font-body-md text-on-surface-variant italic">
+            "Crying over missing semicolons, sweating under GCC -Wall, and desperately trying to build clean, honest modular C code before the clock strikes zero!"
+          </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">4 Coders</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">Target: 100% Pass</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">Weapon: Panic Fixes</span>
+</div>
+</div>
+<!-- STYLIZED COMIC 'VS' EMBLEM -->
+<div class="lg:col-span-1 flex flex-col items-center justify-center -my-2 lg:-my-0">
+<div class="relative w-16 h-16 sm:w-20 sm:h-20 bg-secondary-fixed border-[3.5px] border-on-background rounded-full flex items-center justify-center transform hover:rotate-12 transition-transform cursor-pointer">
+<span class="font-headline-xl text-2xl sm:text-3xl font-extrabold text-on-secondary-fixed">VS</span>
+<span class="absolute -top-2 -right-2 text-xl">⚡</span>
+<span class="absolute -bottom-2 -left-2 text-xl">💥</span>
+</div>
+</div>
+<!-- RED/CORAL CORNER: The Tech Mafia -->
+<div class="lg:col-span-5 bg-primary-fixed/50 border-[3px] border-on-background rounded-xl p-5 sm:p-6 space-y-3 relative">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm font-bold border-[1.5px] border-on-background">
+              🟥 RED CORNER // SABOTEURS
+            </span>
+<span class="text-2xl">🕵️‍♂️</span>
+</div>
+<h3 class="font-headline-md text-2xl font-bold text-on-background">"The Tech Mafia" (Detectives)</h3>
+<p class="font-body-md text-on-surface-variant italic">
+            "Armed with 6 sneaky attack tokens, ready to flip your + into -, invert boundary conditions, break return values, and laugh maniacally while tests fail!"
+          </p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">4 Attackers</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">Budget: 6 Tokens</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest border border-on-background font-code text-xs font-bold text-on-surface">Weapon: Poison Diffs</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== 2. CHAPTER 1: THE STORY MODE FLOW (HOW THE HEIST GOES DOWN) ==================== -->
+<section class="space-y-6">
+<div class="flex flex-wrap items-end justify-between gap-3">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-extrabold">CHAPTER 01 // ARCADE CHRONOLOGY</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">How The Heist Goes Down (20-Minute Match)</h2>
+</div>
+<div class="font-code text-code text-on-surface-variant bg-surface-container-high px-3 py-1 rounded border-[2px] border-on-background">
+      ⏱️ MATCH TIMER: 1200 SECONDS
+    </div>
+</div>
+<!-- Comic Arc Chapters Stepper Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stage 1 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-container font-code text-xs font-bold border border-on-background">00:00 - 09:00</span>
+<span class="text-2xl">🏖️</span>
+</div>
+<div>
+<span class="font-label-sm text-tertiary font-bold uppercase tracking-wider">STAGE 01</span>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"The Honeymoon"</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Coders happily write their modular C code side-by-side, thinking life is good and compilers are their best friends. Everything compiles. Sunshine and rainbows.
+        </p>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm font-bold text-tertiary">
+        STATUS: FALSE SENSE OF SECURITY
+      </div>
+</div>
+<!-- Stage 2 -->
+<div class="bg-primary-fixed/40 border-[3.5px] border-primary rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all ring-2 ring-primary">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-code text-xs font-bold border border-on-background">09:00 - 11:00</span>
+<span class="text-2xl animate-bounce">🚨</span>
+</div>
+<div>
+<span class="font-label-sm text-primary font-bold uppercase tracking-wider">STAGE 02 (2 MIN BLITZ)</span>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"The Infiltration"</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          The lights flicker! Coders must take hands OFF keyboards! The Tech Mafia storms the workstation, spending up to 6 Attack Tokens to plant devious math traps and boundary landmines!
+        </p>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm font-bold text-primary">
+        STATUS: 6 TOKENS UNLEASHED
+      </div>
+</div>
+<!-- Stage 3 -->
+<div class="bg-secondary-container/30 border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-code text-xs font-bold border border-on-background">11:00 - 17:00</span>
+<span class="text-2xl">😱</span>
+</div>
+<div>
+<span class="font-label-sm text-secondary font-bold uppercase tracking-wider">STAGE 03 (5 MIN REPAIR)</span>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"The Panic Room"</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Coders return and discover their calculator outputs 42 for every single number. Pure adrenaline! Stare down git diffs, hunt down corrupted logic, and patch the leaks before time expires!
+        </p>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm font-bold text-secondary">
+        STATUS: CODE EMERGENCY SURGERY
+      </div>
+</div>
+<!-- Stage 4 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-code text-xs font-bold border border-on-background">17:00 - 20:00</span>
+<span class="text-2xl">⚖️</span>
+</div>
+<div>
+<span class="font-label-sm text-on-surface-variant font-bold uppercase tracking-wider">STAGE 04</span>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"Judgment Day"</h3>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Lead Judge executes the secret test harness with wicked edge-case values. Coders present oral defense. Did the code survive or does the Mafia take the championship bounty?
+        </p>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm font-bold text-on-surface">
+        STATUS: LIVE VERDICT &amp; TROPHY
+      </div>
+</div>
+</div>
+</section>
+<!-- ==================== 3. CHAPTER 2: PICK YOUR FIGHTER (ROLE BREAKDOWN 4V4) ==================== -->
+<section class="space-y-6">
+<div class="flex flex-wrap items-end justify-between gap-3">
+<div>
+<div class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest font-extrabold">CHAPTER 02 // ROSTER ARCHETYPES</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Pick Your Fighter: 4v4 Tactical Face-Off</h2>
+</div>
+<span class="font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed px-3 py-1 rounded-full border-[2px] border-on-background font-bold">
+      🎯 DIRECT HEAD-TO-HEAD MATCHUPS
+    </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Matchup 1: Bouncer vs Smuggler -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 space-y-4">
+<div class="flex items-center justify-between border-b-[2px] border-on-background pb-3">
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-code text-xs font-bold">MATCHUP 01: INPUT ZONE</span>
+<span class="text-xl">🚪💥</span>
+</div>
+<h3 class="font-headline-sm text-xl text-on-background font-bold">"The Bouncer" vs "The Smuggler"</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm">
+<div class="p-3 bg-tertiary-fixed/30 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-tertiary">Coder 1: The Bouncer 🛡️</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Scan inputs with scanf, guard range limits, reject garbage strings, sanitize input buffers.</p>
+</div>
+<div class="p-3 bg-primary-fixed/40 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-primary">Detective 1: The Smuggler 🦹</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Break scanf format tags (%d into %c), remove bounds checking, let illegal negative numbers slide.</p>
+</div>
+</div>
+</div>
+<!-- Matchup 2: Mathematician vs Saboteur -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 space-y-4">
+<div class="flex items-center justify-between border-b-[2px] border-on-background pb-3">
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-code text-xs font-bold">MATCHUP 02: MATH CORE</span>
+<span class="text-xl">🧮🧨</span>
+</div>
+<h3 class="font-headline-sm text-xl text-on-background font-bold">"The Mathematician" vs "The Saboteur"</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm">
+<div class="p-3 bg-tertiary-fixed/30 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-tertiary">Coder 2: The Mathematician 📐</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Craft the core mathematical formulas, handle division-by-zero checks, maintain precise variable accumulation.</p>
+</div>
+<div class="p-3 bg-primary-fixed/40 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-primary">Detective 2: The Saboteur 💣</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Invert arithmetic operators (+ to -), sneak in off-by-one loop limits, subtly corrupt accumulator variables.</p>
+</div>
+</div>
+</div>
+<!-- Matchup 3: Gatekeeper vs Trickster -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 space-y-4">
+<div class="flex items-center justify-between border-b-[2px] border-on-background pb-3">
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-code text-xs font-bold">MATCHUP 03: BRANCH LOGIC</span>
+<span class="text-xl">🔑🃏</span>
+</div>
+<h3 class="font-headline-sm text-xl text-on-background font-bold">"The Gatekeeper" vs "The Trickster"</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm">
+<div class="p-3 bg-tertiary-fixed/30 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-tertiary">Coder 3: The Gatekeeper ⛩️</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Ensure rigid if/else conditions (e.g. marks &gt;= 40), handle equal-value edge cases, trap zero values cleanly.</p>
+</div>
+<div class="p-3 bg-primary-fixed/40 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-primary">Detective 3: The Trickster 🎭</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Mutate boundary operators (&gt;= into &gt;), swap logical &amp;&amp; with ||, introduce sneaky tie-breaker failures.</p>
+</div>
+</div>
+</div>
+<!-- Matchup 4: Architect vs Cable Cutter -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 space-y-4">
+<div class="flex items-center justify-between border-b-[2px] border-on-background pb-3">
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-code text-xs font-bold">MATCHUP 04: SYSTEM INTEGRATION</span>
+<span class="text-xl">🏛️✂️</span>
+</div>
+<h3 class="font-headline-sm text-xl text-on-background font-bold">"The Architect" vs "The Cable Cutter"</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-body-sm">
+<div class="p-3 bg-tertiary-fixed/30 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-tertiary">Coder 4: The Architect 🏗️</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Glue all 4 functions in main(), verify clean argument passing, output strictly formatted final strings.</p>
+</div>
+<div class="p-3 bg-primary-fixed/40 rounded-lg border-[2px] border-on-background space-y-1">
+<div class="font-label-sm font-bold text-primary">Detective 4: The Cable Cutter 🔌</div>
+<p class="text-on-surface-variant font-medium"><strong>Your Mission:</strong> Misdirect return values, alter parameter order, corrupt output printf specifiers to break automated graders.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== 4. CHAPTER 3: THE MAFIA BLACK MARKET (ATTACK TOKENS) ==================== -->
+<section class="space-y-6" id="token-system">
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<div class="font-label-sm text-label-sm text-primary uppercase tracking-widest font-extrabold">CHAPTER 03 // EXPLOIT ECONOMY</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">The Mafia Black Market (6 Bug Tokens)</h2>
+</div>
+<!-- Arcade Coin Slots Meter -->
+<div class="flex items-center gap-2 p-2.5 bg-surface-container-highest rounded-xl border-[2.5px] border-on-background">
+<span class="font-label-sm text-label-sm text-on-surface font-extrabold uppercase mr-1">MAFIA WALLET:</span>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.1s;">🪙</div>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.2s;">🪙</div>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.3s;">🪙</div>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.4s;">🪙</div>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.5s;">🪙</div>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed border-[2px] border-on-background flex items-center justify-center font-bold text-on-secondary-fixed text-xs animate-bounce" style="animation-delay: 0.6s;">🪙</div>
+</div>
+</div>
+<!-- 3 Humorous Bug Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Minor Bug -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 flex flex-col justify-between hover:translate-y-[-2px] transition-transform">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="px-3 py-1 rounded bg-secondary-fixed text-on-secondary-fixed border-[2px] border-on-background font-label-sm text-label-sm font-bold">
+            TIER 01 EXPLOIT
+          </span>
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-headline-sm text-sm font-bold">1 🪙 COIN</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"The Annoying Pebble"</h3>
+<p class="font-body-md text-on-surface-variant text-sm mt-1">
+            Minor single-character boundary sabotage. Doesn't crash the program, but secretly fails borderline passing students!
+          </p>
+</div>
+<!-- Humorous Code Diff -->
+<div class="p-3 bg-surface-container-highest rounded-lg border-[2px] border-on-background font-code text-xs space-y-1">
+<div class="text-on-surface-variant line-through opacity-70">if (marks &gt;= 40) // Pass mark</div>
+<div class="text-primary font-bold flex items-center gap-1">
+<span>+ if (marks &gt; 40) // Rip student with 40</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm text-on-surface-variant font-bold">
+        Effect: Strips borderline cases cleanly.
+      </div>
+</div>
+<!-- Critical Bug -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 flex flex-col justify-between hover:translate-y-[-2px] transition-transform">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="px-3 py-1 rounded bg-primary-fixed text-on-primary-fixed border-[2px] border-on-background font-label-sm text-label-sm font-bold">
+            TIER 02 EXPLOIT
+          </span>
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-headline-sm text-sm font-bold">2 🪙🪙 COINS</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">"The Wrecking Ball"</h3>
+<p class="font-body-md text-on-surface-variant text-sm mt-1">
+            Destroys core arithmetic calculation or loop counters. Instant fail on baseline multiplication or summation tests!
+          </p>
+</div>
+<!-- Humorous Code Diff -->
+<div class="p-3 bg-surface-container-highest rounded-lg border-[2px] border-on-background font-code text-xs space-y-1">
+<div class="text-on-surface-variant line-through opacity-70">total = a + b;</div>
+<div class="text-primary font-bold flex items-center gap-1">
+<span>+ total = a - b; /* HAHAHA */</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm text-on-surface-variant font-bold">
+        Effect: Fails all mathematical assertions.
+      </div>
+</div>
+<!-- Combo Attack -->
+<div class="bg-surface-container-lowest border-[3.5px] border-on-background rounded-xl p-6 flex flex-col justify-between hover:translate-y-[-2px] transition-transform relative overflow-hidden">
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="px-3 py-1 rounded bg-primary-container text-on-primary-container border-[2px] border-on-background font-label-sm text-label-sm font-bold animate-pulse">
+            TIER 03 ULTIMATE
+          </span>
+<span class="px-2.5 py-0.5 rounded bg-surface-container border border-on-background font-headline-sm text-sm font-bold">3 🪙🪙🪙 COINS</span>
+</div>
+<div>
+<h3 class="font-headline-sm text-xl font-bold text-primary">"Dual Sabotage Chaos"</h3>
+<p class="font-body-md text-on-surface-variant text-sm mt-1">
+            Two coordinated simultaneous bugs across two different teammate modules. Coders blame each other while the Mafia giggles!
+          </p>
+</div>
+<!-- Humorous Code Diff -->
+<div class="p-3 bg-surface-container-highest rounded-lg border-[2px] border-on-background font-code text-xs space-y-1">
+<div class="text-primary font-bold">1: Mod 1 (scanf strips negative sign)</div>
+<div class="text-primary font-bold">2: Mod 4 (main prints inverted bool)</div>
+</div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-label-sm text-on-surface-variant font-bold">
+        Effect: Maximum cognitive disruption!
+      </div>
+</div>
+</div>
+</section>
+<!-- ==================== 5. CHAPTER 4: THE 6 BATTLEGROUNDS (CHALLENGE BANK) ==================== -->
+<section class="space-y-6">
+<div class="flex flex-wrap items-end justify-between gap-3">
+<div>
+<div class="font-label-sm text-label-sm text-tertiary uppercase tracking-widest font-extrabold">CHAPTER 04 // THE BATTLEGROUND POOL</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">The 6 Beginner C Battlegrounds</h2>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-sm">
+      One arena chosen at random by the Judge at 00:00 sharp. No external libraries allowed—pure standard C!
+    </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Battleground 1 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed-variant font-code text-xs font-bold border border-on-background">MAP 01</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Simple Calculator</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Takes two floats and an arithmetic operator (+, -, *, /). Guards against the dreaded division by zero crash.
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> Detectives love turning a + into - right before testing addition.
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Parse • Choose Op • Calculate • Print Result
+      </div>
+</div>
+<!-- Battleground 2 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-code text-xs font-bold border border-on-background">MAP 02</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Student Marks Calc</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Reads 3 subjects (0-100), validates passing rule (&gt;= 40 in each), computes total sum and percentage grade.
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> Target the 39 vs 40 mark boundary for instant edge-case elimination!
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Validation • Summation • Percentage • Final Verdict
+      </div>
+</div>
+<!-- Battleground 3 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code text-xs font-bold border border-on-background">MAP 03</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Number Analyzer</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Determines if integer is positive, negative, or zero, plus checks parity (even or odd) using modulo %.
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> What is zero? Neither positive nor negative. A golden trap for detectives.
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Ingest • Sign Logic • Parity Modulo • Status Message
+      </div>
+</div>
+<!-- Battleground 4 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-code text-xs font-bold border border-on-background">MAP 04</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Multiplication Table</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Accepts integer N and prints formatted multiplication from 1 through 10 using a crisp for loop.
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> Changing `i &lt;= 10` to `i &lt; 10` is subtle, brutal, and deadly.
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Reader • Loop Bounds • Product Math • Print Grid
+      </div>
+</div>
+<!-- Battleground 5 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-secondary-fixed text-on-secondary-fixed font-code text-xs font-bold border border-on-background">MAP 05</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Largest of Three</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Ingests three arbitrary integers and returns the strictly largest number, rigorously handling tie cases!
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> Test vector: (7, 7, 3). Does your algorithm break on duplicates?
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Triplet Read • Logic Branch 1 • Logic Branch 2 • Winner
+      </div>
+</div>
+<!-- Battleground 6 -->
+<div class="bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-5 flex flex-col justify-between hover:translate-y-[-2px] transition-all">
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<span class="px-2.5 py-0.5 rounded bg-primary-fixed text-on-primary-fixed font-code text-xs font-bold border border-on-background">MAP 06</span>
+<span class="text-xs font-bold px-2 py-0.5 rounded bg-secondary-fixed border border-on-background">DANGER: ⭐⭐⭐⭐</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-background">Factorial Calculator</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Calculates factorial of non-negative integer N. Special validation for 0! = 1 and negative rejection.
+        </p>
+<div class="p-2.5 bg-surface-container-low rounded border border-on-background font-body-sm text-xs text-on-surface-variant italic">
+          💡 <strong>Mafia Trivia:</strong> The zero factorial edge (0! = 1) is the ultimate trap for innocent coders!
+        </div>
+</div>
+<div class="mt-4 pt-3 border-t border-on-background/20 font-label-sm text-xs font-bold text-on-surface">
+        4 Modules: Negative Trap • Zero Case • Loop Product • Print
+      </div>
+</div>
+</div>
+</section>
+<!-- ==================== 6. CHAPTER 5: RULES & SCORING HUD (100 PTS + CODE OF HONOR) ==================== -->
+<section class="space-y-6">
+<div>
+<div class="font-label-sm text-label-sm text-secondary uppercase tracking-widest font-extrabold">CHAPTER 05 // THE FINAL SCORE</div>
+<h2 class="font-headline-lg text-headline-lg text-on-background">Scoring HUD &amp; The Mafia Code of Honor</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Coder Team Scoring -->
+<div class="lg:col-span-4 bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b-[2px] border-on-background mb-4">
+<span class="font-headline-sm text-xl font-bold text-on-background">Coder Scorecard 🛡️</span>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant border-[2px] border-on-background font-code text-xs font-bold">
+            MAX 100 PTS
+          </span>
+</div>
+<div class="space-y-2.5 font-body-sm text-sm">
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>4 Modules Implemented Correctly</span>
+<span class="font-code font-bold text-tertiary">20 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Initial Baseline Compiles Clean</span>
+<span class="font-code font-bold text-tertiary">10 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Introduced Bugs Found &amp; Repaired</span>
+<span class="font-code font-bold text-tertiary">25 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Passes Hidden Automated Tests</span>
+<span class="font-code font-bold text-tertiary">20 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Proper Output Formatting Specs</span>
+<span class="font-code font-bold text-tertiary">15 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Oral Code Defense to the Judge</span>
+<span class="font-code font-bold text-tertiary">10 PTS</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 border-t-[2px] border-on-background font-label-sm text-xs font-bold text-tertiary text-center">
+        VICTORY COND: 100% SUITE PASS &amp; DEFENSE
+      </div>
+</div>
+<!-- Detective Team Scoring -->
+<div class="lg:col-span-4 bg-surface-container-lowest border-[3px] border-on-background rounded-xl p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b-[2px] border-on-background mb-4">
+<span class="font-headline-sm text-xl font-bold text-on-background">Detective Scorecard 🦹</span>
+<span class="px-3 py-1 bg-primary-fixed text-on-primary-fixed border-[2px] border-on-background font-code text-xs font-bold">
+            MAX 100 PTS
+          </span>
+</div>
+<div class="space-y-2.5 font-body-sm text-sm">
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>4 Valid Planted Bug Attacks (10 ea)</span>
+<span class="font-code font-bold text-primary">40 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Attacks Unresolved Post-Debug</span>
+<span class="font-code font-bold text-primary">20 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Strategic Multi-Module Diversity</span>
+<span class="font-code font-bold text-primary">20 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Accurate Exploit Attack Log</span>
+<span class="font-code font-bold text-primary">10 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-low border border-on-background">
+<span>Team Coordination &amp; Speed</span>
+<span class="font-code font-bold text-primary">10 PTS</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded bg-surface-container-high border border-on-background text-xs opacity-80">
+<span>Useless whitespace change penalty</span>
+<span class="font-code font-bold text-primary">0 PTS</span>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-3 border-t-[2px] border-on-background font-label-sm text-xs font-bold text-primary text-center">
+        VICTORY COND: UNRESOLVED BUGS TRIPPING HARNESS
+      </div>
+</div>
+<!-- Golden Mafia Code of Honor -->
+<div class="lg:col-span-4 bg-secondary-container/20 border-[3px] border-on-background rounded-xl p-6 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 pb-3 border-b-[2px] border-on-background mb-4">
+<span class="text-2xl">📜</span>
+<span class="font-headline-sm text-xl font-bold text-on-background">Golden Mafia Code</span>
+</div>
+<ul class="space-y-3 font-body-sm text-sm text-on-surface">
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">01.</span>
+<span>All code must be written live on the stage arena. No pre-written thumb-drive scripts!</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">02.</span>
+<span>Original baseline code is snapshotted to git before the 2-minute infiltration starts.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">03.</span>
+<span>Detectives may only mutate the candidate C functions—no deleting the test runner!</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">04.</span>
+<span>Every single builder must orally explain their assigned function to the lead judge.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-primary font-bold">05.</span>
+<span>Judges' automated test harness decisions are absolute and final!</span>
+</li>
+</ul>
+</div>
+<div class="mt-6 p-2.5 bg-surface-container-lowest rounded-lg border-[2px] border-on-background text-center">
+<span class="font-label-sm text-xs text-secondary uppercase font-extrabold">⚔️ May the best C programmers win ⚔️</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== INTERACTIVE PRACTICE TERMINAL SIMULATOR ==================== -->
+<section class="bg-surface-container-lowest border-[3.5px] border-on-background rounded-xl p-6 sm:p-8">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b-[2.5px] border-on-background mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest border-[2px] border-on-background flex items-center justify-center font-bold">
+          &gt;_
+        </div>
+<div>
+<div class="font-label-sm text-label-sm text-primary uppercase font-bold">SANDBOX SIMULATOR</div>
+<h3 class="font-headline-sm text-headline-sm text-on-background">Live Bug Injection Previewer</h3>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1.5 rounded bg-surface-container-low hover:bg-surface-container border-[2px] border-on-background font-label-sm text-label-sm text-on-surface active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all" id="btn-reset-code">
+          Reset Clean Code
+        </button>
+<button class="px-3.5 py-1.5 rounded bg-primary-container hover:bg-primary-container/90 border-[2px] border-on-background font-label-sm text-label-sm text-on-primary-container active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-1 font-bold" id="btn-inject-bug">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+          Inject 2-Token Flaw
+        </button>
+</div>
+</div>
+<!-- Code Mockup Terminal -->
+<div class="bg-on-background text-surface-bright p-4 sm:p-6 rounded-xl border-[2.5px] border-on-background font-code text-code text-[14px] leading-relaxed overflow-x-auto">
+<div class="flex items-center justify-between pb-3 mb-3 border-b border-surface-container-highest/30 text-surface-dim font-label-sm text-label-sm">
+<span>solution_p1_calculator.c</span>
+<span class="text-tertiary-container font-bold" id="terminal-status">STATUS: CLEAN (0 INJECTIONS)</span>
+</div>
+<pre id="code-snippet"><code><span class="text-surface-dim">// MODULE 2: ARITHMETIC CALCULATION (Coder 2)</span>
+<span class="text-secondary-fixed">float</span> calculate(<span class="text-secondary-fixed">float</span> a, <span class="text-secondary-fixed">float</span> b, <span class="text-secondary-fixed">char</span> op) {
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'+'</span>) <span class="text-secondary-fixed">return</span> a + b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'-'</span>) <span class="text-secondary-fixed">return</span> a - b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'*'</span>) <span class="text-secondary-fixed">return</span> a * b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'/'</span>) {
+        <span class="text-secondary-fixed">if</span> (b == 0) <span class="text-secondary-fixed">return</span> -1; <span class="text-surface-dim">// div-by-zero check</span>
+        <span class="text-secondary-fixed">return</span> a / b;
+    }
+    <span class="text-secondary-fixed">return</span> 0;
+}</code></pre>
+</div>
+<div class="mt-4 flex flex-wrap items-center justify-between text-on-surface-variant font-body-sm text-body-sm gap-2">
+<span class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">info</span>
+        Click "Inject 2-Token Flaw" to observe how the Detective Team introduces sneaky calculation drift during the 2-minute window.
+      </span>
+<span class="font-code text-code text-[12px] text-on-surface">Compiler: GCC 11.4 • Flag: -Wall -O2</span>
+</div>
+</section>
+</div>
+<script>
+  (function initTerminalSimulator() {
+    const btnInject = document.getElementById('btn-inject-bug');
+    const btnReset = document.getElementById('btn-reset-code');
+    const codeSnippet = document.getElementById('code-snippet');
+    const statusLabel = document.getElementById('terminal-status');
+
+    if (!btnInject || !btnReset || !codeSnippet || !statusLabel) return;
+
+    const cleanCode = `<code><span class="text-surface-dim">// MODULE 2: ARITHMETIC CALCULATION (Coder 2)</span>
+<span class="text-secondary-fixed">float</span> calculate(<span class="text-secondary-fixed">float</span> a, <span class="text-secondary-fixed">float</span> b, <span class="text-secondary-fixed">char</span> op) {
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'+'</span>) <span class="text-secondary-fixed">return</span> a + b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'-'</span>) <span class="text-secondary-fixed">return</span> a - b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'*'</span>) <span class="text-secondary-fixed">return</span> a * b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'/'</span>) {
+        <span class="text-secondary-fixed">if</span> (b == 0) <span class="text-secondary-fixed">return</span> -1; <span class="text-surface-dim">// div-by-zero check</span>
+        <span class="text-secondary-fixed">return</span> a / b;
+    }
+    <span class="text-secondary-fixed">return</span> 0;
+}</code>`;
+
+    const poisonedCode = `<code><span class="text-surface-dim">// MODULE 2: ARITHMETIC CALCULATION (Coder 2)</span>
+<span class="text-secondary-fixed">float</span> calculate(<span class="text-secondary-fixed">float</span> a, <span class="text-secondary-fixed">float</span> b, <span class="text-secondary-fixed">char</span> op) {
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'+'</span>) <span class="text-secondary-fixed">return</span> a + b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'-'</span>) <span class="text-secondary-fixed">return</span> a - b;
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'*'</span>) <span class="text-primary font-bold bg-primary/20 px-1 rounded border border-primary">return a + b; /* INJECTED: TIER 2 DEFECT (-2 TOKENS) */</span>
+    <span class="text-secondary-fixed">if</span> (op == <span class="text-primary-container">'/'</span>) {
+        <span class="text-secondary-fixed">if</span> (b == 0) <span class="text-secondary-fixed">return</span> -1; <span class="text-surface-dim">// div-by-zero check</span>
+        <span class="text-secondary-fixed">return</span> a / b;
+    }
+    <span class="text-secondary-fixed">return</span> 0;
+}</code>`;
+
+    btnInject.addEventListener('click', () => {
+      codeSnippet.innerHTML = poisonedCode;
+      statusLabel.textContent = 'STATUS: 🚨 INJECTED (FAILING MULTIPLICATION CASES)';
+      statusLabel.className = 'text-primary-container font-bold animate-pulse';
+    });
+
+    btnReset.addEventListener('click', () => {
+      codeSnippet.innerHTML = cleanCode;
+      statusLabel.textContent = 'STATUS: CLEAN (0 INJECTIONS)';
+      statusLabel.className = 'text-tertiary-container font-bold';
+    });
+  })();
+</script></main><footer class="w-full bg-surface-container-low border-t-[2.5px] border-on-background py-space-lg"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col sm:flex-row items-center justify-between gap-space-md text-center sm:text-left"><div class="flex items-center gap-space-sm"><span class="font-headline-sm text-label-lg text-on-surface">BrutalUI</span><span class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Brutal Systems Inc. Heavy-duty auth infrastructure.</span></div><div class="flex items-center gap-space-lg font-label-sm text-label-sm text-on-surface-variant"><a class="hover:text-on-surface" data-path="docs" href="#">Security Specs</a><a class="hover:text-on-surface" data-path="help-center" href="#">Status Monitor</a><a class="hover:text-on-surface" data-path="docs" href="#">Terms &amp; Privacy</a></div></div></footer></body></html>

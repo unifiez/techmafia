@@ -1,0 +1,67 @@
+<div class="bg-surface-container-lowest border-[3px] border-black">
+    <!-- Terminal Header Bar -->
+    <div
+        class="bg-surface-container-highest px-4 py-2.5 border-b-[2.5px] border-black flex items-center justify-between">
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
+                <span class="w-3.5 h-3.5 rounded-full bg-primary border-[1.5px] border-black"></span>
+                <span class="w-3.5 h-3.5 rounded-full bg-secondary-container border-[1.5px] border-black"></span>
+                <span class="w-3.5 h-3.5 rounded-full bg-surface-container-lowest border-[1.5px] border-black"></span>
+            </div>
+            <span class="font-code text-code font-bold uppercase tracking-wider text-on-surface pl-2">
+                TERMINAL // BATTLE_ACTIVITY_LOG.STDOUT
+            </span>
+        </div>
+        <div class="flex items-center gap-2">
+            <button
+                class="px-2 py-0.5 bg-surface-container border border-black font-code text-[11px] hover:bg-surface transition-all"
+                id="clearLogBtn">
+                CLEAR VIEW
+            </button>
+            <span class="font-code text-code text-outline">AUTO-REFRESH: ON (1000ms)</span>
+        </div>
+    </div>
+    <!-- Terminal Body Content -->
+    <div class="p-6 font-code text-code space-y-3 bg-surface-container-lowest max-h-72 overflow-y-auto"
+        id="terminalStream">
+        <div class="flex items-start gap-3">
+            <span class="text-primary font-bold shrink-0">[10:14:22]</span>
+            <span class="text-on-surface"><strong class="text-primary">[SECURITY EVENT]</strong> Detective team minted
+                1-token boundary attack payload (Testcase: INT_MIN / -1).</span>
+        </div>
+        <div class="flex items-start gap-3">
+            <span class="text-tertiary font-bold shrink-0">[10:11:05]</span>
+            <span class="text-on-surface"><strong class="text-tertiary">[SYSTEM HARNESS]</strong> Auto-test passed on
+                suite #04. Return status: 0 (No sigfaults).</span>
+        </div>
+        <div class="flex items-start gap-3">
+            <span class="text-outline font-bold shrink-0">[10:08:49]</span>
+            <span class="text-on-surface"><strong class="text-on-surface">[GCC HARNESS]</strong> Candidate build C-12
+                clean compiled in 420ms. Optimization flags applied (-O2).</span>
+        </div>
+        <div class="flex items-start gap-3">
+            <span class="text-primary font-bold shrink-0">[10:04:12]</span>
+            <span class="text-on-surface"><strong class="text-primary">[RADAR]</strong> Team "ZeroDayKnights" deployed
+                Tier 2 Combo Exploit against Arena Room #02.</span>
+        </div>
+        <div class="flex items-start gap-3">
+            <span class="text-outline font-bold shrink-0">[10:00:00]</span>
+            <span class="text-on-surface"><strong class="text-on-surface">[ARENA INGEST]</strong> Round 1 commenced.
+                Problem #01 unlocked across 16 competitive pods.</span>
+        </div>
+    </div>
+    <!-- Quick Command Input Strip -->
+    <div class="p-3 bg-surface border-t-[2px] border-black flex items-center gap-3">
+        <span class="font-code text-code font-bold text-primary pl-2">&gt;&gt;</span>
+        <input
+            class="w-full bg-surface-container-lowest border-[2px] border-black px-3 py-1.5 font-code text-code text-on-surface focus:outline-none focus:shadow-[2px_2px_0_0_#000000]"
+            id="terminalCmdInput"
+            placeholder="Enter diagnostic query (e.g. /status, /inspect token-vault, /ping-detectives)..."
+            type="text" />
+        <button
+            class="px-4 py-1.5 bg-primary-container text-on-primary-container border-[2px] border-black font-label-sm text-label-sm uppercase font-bold hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+            id="sendCmdBtn">
+            EXEC
+        </button>
+    </div>
+</div>

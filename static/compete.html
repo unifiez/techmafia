@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#410006", "on-error": "#ffffff", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#544600", "on-tertiary-container": "#003268", "surface-bright": "#fff9eb", "tertiary-fixed": "#d6e3ff", "on-tertiary-fixed-variant": "#00468c", "secondary-fixed": "#ffe16d", "on-error-container": "#93000a", "outline-variant": "#e0bfbd", "background": "#fff9eb", "surface-dim": "#e0dac7", "on-tertiary": "#ffffff", "on-tertiary-fixed": "#001b3e", "surface-container-highest": "#e9e2cf", "surface-tint": "#ae2f34", "tertiary-fixed-dim": "#a9c7ff", "on-background": "#1e1c10", "secondary-fixed-dim": "#e2c54e", "primary": "#ae2f34", "surface-container": "#f4eeda", "surface-container-lowest": "#ffffff", "secondary": "#705d00", "inverse-surface": "#333023", "tertiary": "#005db8", "on-secondary-container": "#756100", "on-primary-fixed-variant": "#8c1520", "on-primary-container": "#6d0010", "on-secondary-fixed": "#221b00", "on-surface-variant": "#584140", "on-primary": "#ffffff", "primary-container": "#ff6b6b", "error-container": "#ffdad6", "inverse-primary": "#ffb3b0", "tertiary-container": "#589bff", "surface": "#fff9eb", "inverse-on-surface": "#f7f0dd", "outline": "#8c706f", "primary-fixed-dim": "#ffb3b0", "secondary-container": "#fdde64", "surface-container-low": "#faf3df", "error": "#ba1a1a", "surface-variant": "#e9e2cf", "surface-container-high": "#efe8d4", "on-surface": "#1e1c10", "primary-fixed": "#ffdad8" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "2.25rem", "margin": "2.5rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Space Grotesk"], "headline-lg": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "headline-xl": ["Space Grotesk"], "code": ["Space Grotesk"], "label-lg": ["Space Grotesk"], "label-md": ["Space Grotesk"], "body-sm": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "body-lg": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "500" }], "headline-sm": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "code": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "500" }] } } } };</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface antialiased">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b-[2.5px] border-black">
+        <div class="h-20 max-w-[1400px] mx-auto px-gutter flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-lg"><a
+                    class="flex items-center gap-space-xs bg-secondary-container px-space-md py-space-xs border-[2px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+                    data-path="home" href="#"><span
+                        class="font-headline-sm text-headline-sm tracking-tight text-on-surface uppercase">TECH
+                        MAFIA</span></a>
+                <nav class="hidden xl:flex items-center gap-space-xs"
+                    data-active-classes="bg-primary-container text-on-surface border-[2px] border-black">
+                    <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="home" href="#">Home</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="leaderboard" href="#">Leaderboard</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="team" href="#">Team</a><a aria-current="page"
+                        class="font-label-lg px-space-md py-space-xs transition-all relative flex items-center gap-space-xs bg-primary-container text-on-surface border-[2px] border-black"
+                        data-path="compete" href="#">Compete<span
+                            class="inline-block w-2.5 h-2.5 rounded-full bg-primary animate-pulse border border-black"></span></a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="docs" href="#">Docs</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-space-md">
+                <div
+                    class="hidden md:flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs border-[2px] border-black">
+                    <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container border border-black"></span><span
+                        class="font-code text-code text-on-surface uppercase">STATUS: MATCH ACTIVE</span>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border-[2px] border-black">
+                    <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-20 bg-background min-h-screen">
+        <div class="flex flex-col w-full">
+            <div class="max-w-[1400px] mx-auto w-full px-gutter py-space-md flex flex-col gap-space-lg">
+                <!-- Top Match HUD Bar -->
+                <section
+                    class=" w-full bg-surface-container-lowest p-space-md border-[3px] border-black flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-space-md">
+                    <!-- Left HUD Info -->
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+                        <div class="flex flex-col gap-space-xs">
+                            <div class="flex items-center gap-space-md">
+                                <span
+                                    class="inline-block w-3 h-3 bg-primary rounded-full animate-ping border border-black"></span>
+                                <span class="font-code text-code text-primary uppercase font-bold tracking-wider">LIVE
+                                    ARENA</span>
+                            </div>
+                            <h1 class="font-headline-md text-headline-md uppercase tracking-tight text-on-surface">ROUND
+                                01</h1>
+                            <div
+                                class="flex flex-wrap items-center gap-space-xs text-on-surface-variant font-code text-body-sm">
+                                <span
+                                    class="bg-secondary-container text-on-surface px-space-xs py-0.5 border-[2px] border-black font-bold">ALPHA
+                                    NODE: ACME-8492 [CODERS]</span>
+                                <span class="font-bold">VS</span>
+                                <span
+                                    class="bg-primary-container text-on-surface px-space-xs py-0.5 border-[2px] border-black font-bold">TARGET:
+                                    SHADOW SYNDICATE [DETECTIVES]</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Center Countdown Timer -->
+                    <div class="flex items-center justify-center">
+                        <div class="bg-secondary-container px-space-lg py-space-xs border-[3px] border-black flex flex-col items-center"
+                            id="match-timer-box">
+                            <span
+                                class="font-label-sm text-label-sm uppercase tracking-widest text-on-surface">COUNTDOWN
+                                EXPIRATION</span>
+                            <div class="flex items-baseline gap-space-xs">
+                                <span
+                                    class="font-headline-xl text-headline-xl text-on-surface font-bold tracking-tighter timer-display"
+                                    id="timer-display">08:36</span>
+                                <span class="font-code text-code text-primary animate-pulse font-bold">REC</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Action Button Cluster -->
+                    <!-- <div class="flex flex-wrap items-center justify-end gap-space-sm">
+                        <button
+                            class="bg-secondary-container text-on-surface px-space-md py-space-sm border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0px_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all flex items-center gap-space-xs font-label-lg text-label-lg"
+                            id="btn-run-tests">
+                            <span class="material-symbols-outlined text-[20px]">play_arrow</span>
+                            <span>RUN TEST HARNESS</span>
+                        </button>
+                        <button
+                            class="bg-[#4ade80] text-on-surface px-space-md py-space-sm border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0px_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all flex items-center gap-space-xs font-label-lg text-label-lg"
+                            id="btn-commit-patch">
+                            <span class="material-symbols-outlined text-[20px]">verified</span>
+                            <span>COMMIT PATCH</span>
+                        </button>
+                        <button
+                            class="bg-primary-container text-on-surface px-space-md py-space-sm border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0px_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all flex items-center gap-space-xs font-label-lg text-label-lg"
+                            id="btn-report-incident">
+                            <span class="material-symbols-outlined text-[20px]">gavel</span>
+                            <span>ACCUSE HACKER</span>
+                        </button>
+                    </div> -->
+                </section>
+                <!-- Main Live Workspace Split Grid -->
+                <div class=" flex flex-col gap-4">
+                    <!-- Left Major Column: Workspace & Code Terminal (7 cols on lg, 8 on xl) -->
+                    <section class="lg:col-span-7 xl:col-span-8 flex flex-row gap-space-md">
+                        <!-- Spec Header Card -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md border-[2.5px] border-black flex flex-col gap-space-xs">
+                            <div class="flex items-center justify-between flex-wrap gap-space-xs">
+                                <div class="flex items-center gap-space-xs">
+                                    <span
+                                        class="bg-tertiary-container text-on-surface px-space-xs py-0.5 border-[2px] border-black font-code text-label-sm font-bold">CVE-TRAP
+                                        #049</span>
+                                    <span class="font-headline-sm text-headline-sm uppercase text-on-surface">Problem
+                                        #01: Simple Calculator Engine</span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-space-xs font-code text-body-sm text-on-surface-variant">
+                                    <span>WEIGHT: 1,200 PTS</span>
+                                    <span>•</span>
+                                    <span class="text-primary font-bold">DIFFICULTY: MED-FATAL</span>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-body-md text-on-surface">
+                                Evaluate mathematical tokens from stdin string buffers. A covert operative inserted
+                                logic that silently mutates state when executing chained modular divisions. Eliminate
+                                all unintended memory corruption and restore deterministic evaluation before time
+                                expires.
+                            </p>
+                        </div>
+
+                        <!-- Detective Token Vault -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md border-[2.5px] border-black flex flex-col gap-space-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="font-headline-sm text-headline-sm uppercase text-on-surface">DETECTIVE
+                                    TOKEN</span>
+                                <span
+                                    class="bg-secondary px-space-xs py-0.5 border-[2px] border-black text-on-secondary font-code text-label-sm font-bold">REMAINING:
+                                    3/6</span>
+                            </div>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                Each token burns 1 accusatory query or forensic dump against syndicate suspects.
+                            </p>
+                            <!-- Coin Pips -->
+                            <div class="grid grid-cols-6 gap-space-xs py-space-xs">
+                                <!-- Active Coin 1 -->
+                                <div
+                                    class="h-10 bg-secondary-container border-[2px] border-black flex items-center justify-center font-code font-bold text-on-surface">
+                                    <span class="material-symbols-outlined text-[20px]">token</span>
+                                </div>
+                                <!-- Active Coin 2 -->
+                                <div
+                                    class="h-10 bg-secondary-container border-[2px] border-black flex items-center justify-center font-code font-bold text-on-surface">
+                                    <span class="material-symbols-outlined text-[20px]">token</span>
+                                </div>
+                                <!-- Active Coin 3 -->
+                                <div
+                                    class="h-10 bg-secondary-container border-[2px] border-black flex items-center justify-center font-code font-bold text-on-surface">
+                                    <span class="material-symbols-outlined text-[20px]">token</span>
+                                </div>
+                                <!-- Spent Coin 4 -->
+                                <div
+                                    class="h-10 bg-surface-container-high border-[2px] border-black opacity-50 flex items-center justify-center font-code text-on-surface-variant line-through">
+                                    <span class="material-symbols-outlined text-[20px]">lock</span>
+                                </div>
+                                <!-- Spent Coin 5 -->
+                                <div
+                                    class="h-10 bg-surface-container-high border-[2px] border-black opacity-50 flex items-center justify-center font-code text-on-surface-variant line-through">
+                                    <span class="material-symbols-outlined text-[20px]">lock</span>
+                                </div>
+                                <!-- Spent Coin 6 -->
+                                <div
+                                    class="h-10 bg-surface-container-high border-[2px] border-black opacity-50 flex items-center justify-center font-code text-on-surface-variant line-through">
+                                    <span class="material-symbols-outlined text-[20px]">lock</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Right Column: Tokens, Tests & Console (5 cols on lg, 4 on xl) -->
+                    <section class="lg:col-span-5 xl:col-span-4 flex flex-row gap-space-md">
+                        <!-- Neo-Brutalist Code Editor Chassis -->
+                        <div class="bg-inverse-surface border-[3px] border-black flex flex-1 flex-col">
+                            <!-- Editor File Tab Strip -->
+                            <div
+                                class="bg-surface-container border-b-[2.5px] border-black flex items-center justify-between px-space-sm pt-space-xs pb-space-xs overflow-x-auto">
+                                <div class="flex items-end gap-space-xs font-code">
+                                    <button
+                                        class="bg-surface-container-lowest border-[2px] border-black px-space-md py-space-xs font-label-md text-label-md text-on-surface flex items-center gap-space-xs -mb-[2px] z-10">
+                                        <span class="material-symbols-outlined text-[16px] text-primary">code</span>
+                                        calculate_core.c
+                                        <span
+                                            class="bg-primary-container text-on-surface text-[10px] px-1 py-0.2 border border-black font-bold">MODIFIED</span>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-space-xs shrink-0">
+                                    <span
+                                        class="bg-secondary-container px-space-xs py-0.5 border-[2px] border-black font-code text-label-sm text-on-surface">Submit
+                                    </span>
+                                    <span
+                                        class="bg-secondary-container px-space-xs py-0.5 border-[2px] border-black font-code text-label-sm text-on-surface">Test
+                                        & Run</span>
+                                    <span
+                                        class="bg-primary-container px-space-xs py-0.5 border-[2px] border-black font-code text-label-sm text-on-surface timer-display"
+                                        id="timer-display"> 08 : 36 </span>
+                                </div>
+                            </div>
+                            <!-- Code Workspace Lines -->
+                            <div
+                                class="p-space-md font-code text-code overflow-x-auto leading-relaxed select-text bg-[#1e1c10] text-[#f4eeda]">
+                                <div class="flex items-start gap-space-md">
+                                    <!-- Line Numbers -->
+                                    <div
+                                        class="flex flex-col text-[#8c706f] select-none text-right pr-space-sm border-r border-[#8c706f]/40 font-code">
+                                        <span>01</span>
+                                        <span>02</span>
+                                        <span>03</span>
+                                        <span>04</span>
+                                        <span>05</span>
+                                        <span>06</span>
+                                        <span>07</span>
+                                        <span>08</span>
+                                        <span>09</span>
+                                        <span>10</span>
+                                        <span>11</span>
+                                        <span>12</span>
+                                        <span>13</span>
+                                        <span class="bg-primary/30 text-[#ffb3b0] font-bold">14</span>
+                                        <span class="bg-primary/30 text-[#ffb3b0] font-bold">15</span>
+                                        <span class="bg-primary/30 text-[#ffb3b0] font-bold">16</span>
+                                        <span>17</span>
+                                        <span>18</span>
+                                        <span>19</span>
+                                        <span>20</span>
+                                        <span>21</span>
+                                    </div>
+                                    <!-- Code Lines with Syntax Coloring -->
+                                    <div class="flex flex-col flex-1 whitespace-pre font-code">
+                                        <div><span class="text-[#ff6b6b]">#include</span> <span
+                                                class="text-[#67e8f9]">&lt;stdio.h&gt;</span></div>
+                                        <div><span class="text-[#ff6b6b]">#include</span> <span
+                                                class="text-[#67e8f9]">&lt;stdlib.h&gt;</span></div>
+                                        <div><span class="text-[#ff6b6b]">#include</span> <span
+                                                class="text-[#67e8f9]">"calc_engine.h"</span></div>
+                                        <div class="text-[#8c706f]">// Core numeric evaluation engine - handles infix
+                                            tokens</div>
+                                        <div><span class="text-[#ffe066]">int64_t</span> <span
+                                                class="text-[#4ade80]">exec_op</span>(<span
+                                                class="text-[#ffe066]">int64_t</span> a, <span
+                                                class="text-[#ffe066]">int64_t</span> b, <span
+                                                class="text-[#ffe066]">char</span> op) {</div>
+                                        <div> <span class="text-[#ff6b6b]">switch</span>(op) {</div>
+                                        <div> <span class="text-[#ff6b6b]">case</span> <span
+                                                class="text-[#67e8f9]">'+'</span>: <span
+                                                class="text-[#ff6b6b]">return</span> a + b;</div>
+                                        <div> <span class="text-[#ff6b6b]">case</span> <span
+                                                class="text-[#67e8f9]">'-'</span>: <span
+                                                class="text-[#ff6b6b]">return</span> a - b;</div>
+                                        <div> <span class="text-[#ff6b6b]">case</span> <span
+                                                class="text-[#67e8f9]'*':&lt;/span&gt; &lt;span class="
+                                                text-[#ff6b6b]"="">return</span> a * b;</div>
+                                        <div> <span class="text-[#ff6b6b]">case</span> <span
+                                                class="text-[#67e8f9]'/'&lt;/span&gt;:&lt;/div&gt; &lt;div class="
+                                                text-[#8c706f]"=""> // Verify denominator validity before
+                                                arithmetic</span></div>
+                                        <div> <span class="text-[#ff6b6b]">if</span> (b == <span
+                                                class="text-[#67e8f9]">0</span>) {</div>
+                                        <div> <span class="text-[#ff6b6b]">return</span> ERR_ZERO_DIVISION;</div>
+                                        <div
+                                            class="bg-primary/25 -mx-space-xs px-space-xs py-0.5 border-l-4 border-primary">
+                                            <span class="text-[#8c706f]">// [INJECTED BACKDOOR] Operative altered
+                                                overflow clamp:</span>
+                                        </div>
+                                        <div
+                                            class="bg-primary/25 -mx-space-xs px-space-xs py-0.5 border-l-4 border-primary">
+                                            <span class="text-[#ff6b6b]">if</span> (a == INT64_MIN &amp;&amp; b ==
+                                            -<span class="text-[#67e8f9]">1</span>) <span
+                                                class="text-[#ff6b6b]">return</span> <span
+                                                class="text-[#ff6b6b]">(int64_t)0xDEADBEEF</span>; <span
+                                                class="text-[#ffb3b0] font-bold">← SUSPECT</span>
+                                        </div>
+                                        <div
+                                            class="bg-primary/25 -mx-space-xs px-space-xs py-0.5 border-l-4 border-primary">
+                                            <span class="text-[#ff6b6b]">return</span> (a / b) + (op_secret_seed &amp;
+                                            <span class="text-[#67e8f9]">0x01</span>); <span
+                                                class="text-[#ffb3b0] font-bold">← POISON DRIFT</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Editor Footer Bar -->
+                            <div
+                                class="bg-surface-container-high border-t-[2px] border-black px-space-md py-space-xs flex items-center justify-between text-on-surface font-code text-body-sm">
+                                <div class="flex items-center gap-space-md">
+                                    <span class="flex items-center gap-1 font-bold"><span
+                                            class="w-2 h-2 rounded-full bg-primary"></span> Line 15, Col 24</span>
+                                    <span class="hidden sm:inline">UTF-8</span>
+                                    <span class="hidden sm:inline">LF</span>
+                                </div>
+                                <!-- <div class="flex items-center gap-space-sm">
+                                    <button
+                                        class="bg-surface-container-lowest px-space-xs py-0.5 border-[1.5px] border-black text-on-surface hover:bg-surface-container font-label-sm"
+                                        id="btn-revert">REVERT FILE</button>
+                                    <button
+                                        class="bg-secondary-container px-space-xs py-0.5 border-[1.5px] border-black text-on-surface hover:bg-secondary font-label-sm"
+                                        id="btn-quick-patch">APPLY HOTFIX</button>
+                                </div> -->
+                            </div>
+                        </div>
+
+                        <!-- Terminal Diagnostic Console -->
+                        <div class="bg-inverse-surface border-[2.5px] border-black flex flex-col font-code">
+                            <div
+                                class="bg-surface-container border-b-[2px] border-black px-space-sm py-1 flex items-center justify-between">
+                                <span class="font-label-sm text-label-sm uppercase text-on-surface">Output</span>
+                                <div class="flex items-center gap-1">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-primary border border-black"></span>
+                                    <span
+                                        class="w-2.5 h-2.5 rounded-full bg-secondary-container border border-black"></span>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#4ade80] border border-black"></span>
+                                </div>
+                            </div>
+                            <div class="p-space-sm text-[#f4eeda] text-body-sm space-y-1 overflow-y-auto font-code"
+                                id="console-stream">
+                                <div class="text-[#8c706f]">$ gcc -Wall -O2 test_runner.c calculate_core.c -o out.bin
+                                </div>
+                                <div class="text-[#4ade80]">&gt; [OK] Compilation succeeded in 142ms. Zero syntax errs.
+                                </div>
+                                <div class="text-[#f4eeda]">&gt; Running verification matrix on 5 vectors...</div>
+                                <div class="text-[#4ade80]">&gt; TC-01: OK (1.2ms)</div>
+                                <div class="text-[#4ade80]">&gt; TC-02: OK (0.8ms)</div>
+                                <div class="text-[#4ade80]">&gt; TC-03: OK (1.9ms)</div>
+                                <div class="text-[#ff6b6b] font-bold">&gt; [ASSERT FAIL] TC-04 (chained_div): expected
+                                    42, received 43</div>
+                                <div class="text-[#ffdad8]">&gt; Diff dump: delta +1 detected at offset
+                                    calculate_core.c:16</div>
+                                <div class="text-[#67e8f9]">&gt; Seed trace: op_secret_seed=0x01 injected via thread
+                                    hook</div>
+                                <div class="text-secondary-fixed animate-pulse">&gt; Ready for hotfix patch buffer
+                                    input..._</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <!-- Interactive Logic for Real-Time HUD Actions -->
+            <script>
+                (function () {
+                    // Countdown Timer Simulation
+
+                    let totalSeconds = 8 * 60 + 36;
+
+                    const timerE1 = document.querySelectorAll('.timer-display');
+
+                    setInterval(() => {
+                        if (totalSeconds > 0) {
+                            totalSeconds--;
+
+                            const mins = Math.floor(totalSeconds / 60);
+                            const secs = totalSeconds % 60;
+
+                            const time =
+                                String(mins).padStart(2, '0') + ':' +
+                                String(secs).padStart(2, '0');
+
+                            timerE1.forEach(element => {
+                                element.textContent = time;
+                            });
+                        }
+                    }, 1000);
+
+                    // Console Logger helper
+                    const consoleStream = document.getElementById('console-stream');
+                    function appendLog(text, colorClass) {
+                        if (!consoleStream) return;
+                        const line = document.createElement('div');
+                        line.className = (colorClass || 'text-[#f4eeda]') + ' font-code';
+                        line.textContent = '> ' + text;
+                        consoleStream.appendChild(line);
+                        consoleStream.scrollTop = consoleStream.scrollHeight;
+                    }
+
+                    // Test Harness Run Button
+                    const btnRun = document.getElementById('btn-run-tests');
+                    if (btnRun) {
+                        btnRun.addEventListener('click', function () {
+                            appendLog('$ re-running automated verification runner...', 'text-[#ffe066]');
+                            setTimeout(() => appendLog('TC-01 to TC-03 PASS (cached vectors)', 'text-[#4ade80]'), 300);
+                            setTimeout(() => appendLog('[CRITICAL] TC-04 still fails: offset +1 at calculate_core.c:16', 'text-[#ff6b6b] font-bold'), 600);
+                        });
+                    }
+
+                    // Hotfix Patch Button
+                    const btnQuickPatch = document.getElementById('btn-quick-patch');
+                    if (btnQuickPatch) {
+                        btnQuickPatch.addEventListener('click', function () {
+                            appendLog('Hotfix applied: Stripped (op_secret_seed & 0x01) from return expression.', 'text-[#4ade80] font-bold');
+                            appendLog('Recompiling target object calculate_core.o...', 'text-[#67e8f9]');
+                            alert('HOTFIX STAGED: Subroutine returned purely (a / b). Re-run test harness to certify patch!');
+                        });
+                    }
+
+                    // Revert Button
+                    const btnRevert = document.getElementById('btn-revert');
+                    if (btnRevert) {
+                        btnRevert.addEventListener('click', function () {
+                            appendLog('Buffer state restored to git commit HEAD^1.', 'text-[#ffe066]');
+                        });
+                    }
+
+                    // Locate Diff Button
+                    const btnInspect = document.getElementById('inspect-drift-btn');
+                    if (btnInspect) {
+                        btnInspect.addEventListener('click', function () {
+                            appendLog('Cursor jumping to line 15: calculate_core.c ...', 'text-[#67e8f9]');
+                        });
+                    }
+
+                    // Accuse Hacker button
+                    const btnAccuse = document.getElementById('btn-report-incident');
+                    if (btnAccuse) {
+                        btnAccuse.addEventListener('click', function () {
+                            appendLog('INCIDENT DISPATCH: Submitting formal indictment to tournament referee...', 'text-[#ff6b6b] font-bold');
+                            alert('INDICTMENT FILED: Accusing operative CIPHER_NINE with evidence payload from TC-04.');
+                        });
+                    }
+
+                    // Deploy Token Button
+                    const btnToken = document.getElementById('btn-deploy-token');
+                    if (btnToken) {
+                        btnToken.addEventListener('click', function () {
+                            appendLog('TOKEN DEPLOYED: Querying Tokyo-09 node for memory footprint...', 'text-[#ffe066]');
+                            appendLog('RESULT: Process PID 9482 invoked libpoison_arith.so at 14:02:11', 'text-[#4ade80]');
+                        });
+                    }
+
+                    // Commit Patch Button
+                    const btnCommit = document.getElementById('btn-commit-patch');
+                    if (btnCommit) {
+                        btnCommit.addEventListener('click', function () {
+                            appendLog('Submitting cryptographically signed patch to live referee node...', 'text-[#4ade80] font-bold');
+                        });
+                    }
+                })();
+            </script>
+        </div>
+    </main>
+    <footer class="w-full bg-surface-container border-t-[3px] border-black mt-margin py-space-xl">
+        <div class="max-w-[1400px] mx-auto px-gutter">
+            <div
+                class="flex flex-col md:flex-row items-center justify-between gap-space-lg pb-space-lg border-b-[2px] border-black">
+                <div class="flex flex-col gap-space-xs text-center md:text-left"><span
+                        class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-tight">TECH MAFIA •
+                        INTRUSION DIRECTIVE</span><span
+                        class="font-body-sm text-body-sm text-on-surface-variant">High-stakes distributed forensic cyber
+                        competition platform. Find the hacker before time expires.</span></div>
+                <div class="flex flex-wrap items-center justify-center gap-space-sm">
+                    <div
+                        class="px-space-md py-space-xs bg-surface-container-lowest border-[2px] border-black font-code text-code text-on-surface">
+                        SERVER_NODE: TOKYO-09</div>
+                    <div
+                        class="px-space-md py-space-xs bg-surface-container-lowest border-[2px] border-black font-code text-code text-on-surface">
+                        FIREWALL: ARMED</div>
+                    <div
+                        class="px-space-md py-space-xs bg-primary-container border-[2px] border-black font-code text-code text-on-surface">
+                        LATENCY: 18MS</div>
+                </div>
+            </div>
+            <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Tech Mafia Cyber Syndicate. System
+                    specifications calibrated under neo-brutalist protocol.</p>
+                <div class="flex items-center gap-space-md"><span
+                        class="font-label-sm text-label-sm uppercase text-on-surface">DEFENSE_CLEARANCE_IV</span><span
+                        class="w-2 h-2 rounded-full bg-primary border border-black"></span></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

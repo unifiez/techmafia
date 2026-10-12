@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&amp;family=Space+Grotesk:wght@600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "tertiary-fixed-dim": "#a9c7ff", "outline-variant": "#e0bfbd", "primary": "#ae2f34", "inverse-on-surface": "#f7f0dd", "on-surface-variant": "#584140", "secondary-container": "#fdde64", "on-surface": "#1e1c10", "inverse-surface": "#333023", "on-tertiary-fixed": "#001b3e", "on-primary": "#ffffff", "primary-fixed-dim": "#ffb3b0", "on-secondary": "#ffffff", "on-secondary-container": "#756100", "surface-container-lowest": "#ffffff", "outline": "#8c706f", "surface": "#fff9eb", "on-secondary-fixed": "#221b00", "background": "#fff9eb", "error": "#ba1a1a", "on-tertiary-container": "#003268", "error-container": "#ffdad6", "surface-container-highest": "#e9e2cf", "secondary-fixed": "#ffe16d", "tertiary-container": "#589bff", "on-primary-fixed-variant": "#8c1520", "on-error": "#ffffff", "on-primary-fixed": "#410006", "on-secondary-fixed-variant": "#544600", "surface-container-low": "#faf3df", "tertiary": "#005db8", "on-tertiary-fixed-variant": "#00468c", "tertiary-fixed": "#d6e3ff", "surface-bright": "#fff9eb", "on-background": "#1e1c10", "inverse-primary": "#ffb3b0", "secondary": "#705d00", "surface-dim": "#e0dac7", "on-primary-container": "#6d0010", "secondary-fixed-dim": "#e2c54e", "surface-container": "#f4eeda", "surface-tint": "#ae2f34", "surface-variant": "#e9e2cf", "primary-container": "#ff6b6b", "on-tertiary": "#ffffff", "surface-container-high": "#efe8d4", "primary-fixed": "#ffdad8", "on-error-container": "#93000a" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-md": "1rem", "space-xs": "0.25rem", "space-lg": "1.5rem", "margin": "2.5rem", "space-sm": "0.5rem", "space-xl": "2.25rem" }, "fontFamily": { "body-lg": ["Plus Jakarta Sans"], "label-md": ["Space Grotesk"], "label-lg": ["Space Grotesk"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Space Grotesk"], "headline-lg": ["Space Grotesk"], "body-sm": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "headline-xl": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "code": ["Space Grotesk"] }, "fontSize": { "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "500" }], "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "500" }], "headline-sm": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "code": ["14px", { "lineHeight": "20px", "fontWeight": "600" }] } } } }</script>
+</head>
+
+<body class="bg-surface font-body-md text-on-surface min-h-screen flex flex-col">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b-[2.5px] border-black">
+        <div class="h-20 max-w-7xl mx-auto px-6 flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" href="#">
+                    <div
+                        class="w-10 h-10 bg-primary-container border-[2.5px] border-black flex items-center justify-center transition-transform group-hover:translate-x-[-1px] group-hover:translate-y-[-1px]">
+                        <span class="material-symbols-outlined text-on-primary-container text-[22px]">terminal</span>
+                    </div>
+                    <div class="flex flex-col"><span
+                            class="font-headline-sm text-headline-sm tracking-tight text-on-surface leading-none">TECH MAFIA</span><span
+                            class="font-label-sm text-label-sm text-primary uppercase leading-tight tracking-wider">Find
+                            The Hacker Arena</span></div>
+                </a>
+                <nav class="hidden md:flex items-center gap-space-sm ml-space-md"
+                    data-active-classes="bg-secondary-container text-on-secondary-container border-[2px] border-black">
+                    <a aria-current="page"
+                        class="px-3 py-1.5 font-label-md transition-all bg-secondary-container text-on-secondary-container border-[2px] border-black"
+                        data-path="home" href="#">Home</a><a
+                        class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+                        data-path="leaderboard" href="#">Leaderboard</a><a
+                        class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+                        data-path="team" href="#">Team</a><a
+                        class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all inline-flex items-center gap-1.5"
+                        data-path="compete" href="#">Compete<span
+                            class="px-1.5 py-0.5 bg-primary-container text-on-primary-container text-[10px] font-bold uppercase border border-black">LIVE</span></a><a
+                        class="px-3 py-1.5 font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all"
+                        data-path="docs" href="#">Docs</a></nav>
+            </div>
+            <div class="flex items-center gap-space-md">
+                <div
+                    class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-lowest border-[2px] border-black">
+                    <span class="w-2 h-2 rounded-full bg-primary-container animate-ping"></span><span
+                        class="w-2 h-2 rounded-full bg-primary-container absolute"></span><span
+                        class="font-code text-code text-on-surface pl-2">MATCH LIVE // ROUND 1</span></div>
+                <div
+                    class="hidden lg:flex items-center gap-2 px-3 py-1 bg-surface-container border-[2px] border-black">
+                    <span class="font-label-sm text-label-sm text-on-surface uppercase">IAI LAB // CSE-IT DEPT</span>
+                </div><button aria-label="Profile" class="flex items-center focus:outline-none">
+                    <div
+                        class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border-[2px] border-black">
+                        <span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-20 bg-surface flex-1">
+        <div class="flex flex-col w-full">
+            <div class="max-w-7xl mx-auto px-6 py-8 w-full space-y-10">
+                <!-- HERO HEADER & COMMAND TICKER -->
+                <div
+                    class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b-[3px] border-black pb-8">
+                    <div class="space-y-3">
+                        <h1
+                            class="font-headline-xl text-headline-xl text-on-surface tracking-tight uppercase leading-none">
+                            FIND THE HACKER
+                        </h1>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                            Welcome back, <strong
+                                class="text-on-surface underline decoration-primary decoration-4">Agent Aarav</strong>
+                            [Team Sher-8492].
+                            Matchday 2026 is <span
+                                class="bg-primary-container text-on-primary-container px-2 py-0.5 border border-black font-label-md uppercase">LIVE</span>.
+                            Coders build and defend the C program, Detectives burn attack tokens. Let's go, yaar!
+                        </p>
+                    </div>
+                    <!-- Quick Action Deck -->
+                    <div class="flex items-center gap-3 self-start md:self-end">
+                        <button
+                            class="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                            id="toggleSyncBtn">
+                            <span class="material-symbols-outlined text-[18px]">sync</span>
+                            Lets Cook
+                        </button>
+                        <button
+                            class="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase">
+                            <span class="material-symbols-outlined text-[18px]">emergency</span>
+                            Panic Pause
+                        </button>
+                    </div>
+                </div>
+                <!-- PRIMARY 4-WAY JUMBO NAVIGATION HUB -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- COMPETE CARD (Featured Highlight) -->
+                    <div
+                        class="relative bg-primary-container border-[3px] border-black p-6 flex flex-col justify-between group hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="px-2.5 py-1 bg-surface-container-lowest text-on-surface border-[2px] border-black font-label-sm text-label-sm uppercase font-bold flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-error animate-ping"></span>
+                                    ROUND 1 LIVE
+                                </span>
+                                <span
+                                    class="material-symbols-outlined text-[32px] text-on-primary-container">swords</span>
+                            </div>
+                            <div>
+                                <span class="font-code text-code text-on-primary-container tracking-wider uppercase">01
+                                    // CODING PHASE</span>
+                                <h2
+                                    class="font-headline-lg text-headline-lg text-on-primary-container uppercase leading-none mt-1">
+                                    ARENA</h2>
+                                <p class="font-body-sm text-body-sm text-on-primary-container mt-2 opacity-90">
+                                    4v4 face-off: Coders vs Detectives. Beginner-level C, 20-minute match. Timer full
+                                    speed pe chal raha hai!
+                                </p>
+                            </div>
+                            <div class="p-3 bg-surface border-[2px] border-black">
+                                <div class="flex justify-between items-center font-code text-code text-on-surface">
+                                    <span>MATCH CLOCK:</span>
+                                    <span class="font-bold text-primary text-[16px]" id="countdownTimer">19:42</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-6">
+                            <a class="w-full inline-flex items-center justify-center gap-2 py-3 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:bg-secondary-container hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                                href="#">
+                                <span>ENTER ARENA</span>
+                                <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- LEADERBOARD CARD -->
+                    <div
+                        class="relative bg-secondary-container border-[3px] border-black p-6 flex flex-col justify-between group hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="px-2.5 py-1 bg-surface-container-lowest text-on-surface border-[2px] border-black font-label-sm text-label-sm uppercase font-bold">
+                                    LEADERBOARD // TOP 5%
+                                </span>
+                                <span
+                                    class="material-symbols-outlined text-[32px] text-on-secondary-container">military_tech</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="font-code text-code text-on-secondary-container tracking-wider uppercase">02
+                                    // SCOREBOARD</span>
+                                <h2
+                                    class="font-headline-lg text-headline-lg text-on-secondary-container uppercase leading-none mt-1">
+                                    RANKS</h2>
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    <span
+                                        class="font-headline-xl text-headline-xl leading-none text-on-secondary-container">#03</span>
+                                    <span
+                                        class="font-label-md text-label-md text-on-secondary-container uppercase font-bold">850
+                                        PTS</span>
+                                </div>
+                                <p class="font-body-sm text-body-sm text-on-secondary-container mt-1">
+                                    Delta to #01: -45 PTS. Clean repair streak going strong, bro.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="pt-6">
+                            <a class="w-full inline-flex items-center justify-center gap-2 py-3 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:bg-surface hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                                href="#">
+                                <span>FULL STANDINGS</span>
+                                <span class="material-symbols-outlined text-[18px]">trending_up</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- SQUAD TEAM CARD -->
+                    <div
+                        class="relative bg-surface-container-lowest border-[3px] border-black p-6 flex flex-col justify-between group hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="px-2.5 py-1 bg-surface-container-high text-on-surface border-[2px] border-black font-label-sm text-label-sm uppercase font-bold">
+                                    CODER TEAM 4/4
+                                </span>
+                                <span class="material-symbols-outlined text-[32px] text-tertiary">groups</span>
+                            </div>
+                            <div>
+                                <span class="font-code text-code text-outline tracking-wider uppercase">03 // CODER TEAM
+                                    ROSTER</span>
+                                <h2
+                                    class="font-headline-lg text-headline-lg text-on-surface uppercase leading-none mt-1">
+                                    SQUAD</h2>
+                                <div class="mt-3 grid grid-cols-2 gap-2 text-left">
+                                    <div class="p-1.5 bg-surface-container border border-black text-center">
+                                        <span class="font-code text-[11px] block text-on-surface-variant">CODER 1</span>
+                                        <span class="font-label-sm text-label-sm uppercase font-bold text-primary">Aarav
+                                            (L)</span>
+                                    </div>
+                                    <div class="p-1.5 bg-surface-container border border-black text-center">
+                                        <span class="font-code text-[11px] block text-on-surface-variant">CODER 2</span>
+                                        <span
+                                            class="font-label-sm text-label-sm uppercase font-bold text-on-surface">Diya</span>
+                                    </div>
+                                    <div class="p-1.5 bg-surface-container border border-black text-center">
+                                        <span class="font-code text-[11px] block text-on-surface-variant">CODER 3</span>
+                                        <span
+                                            class="font-label-sm text-label-sm uppercase font-bold text-on-surface">Rohan</span>
+                                    </div>
+                                    <div class="p-1.5 bg-surface-container border border-black text-center">
+                                        <span class="font-code text-[11px] block text-on-surface-variant">CODER 4</span>
+                                        <span
+                                            class="font-label-sm text-label-sm uppercase font-bold text-on-surface">Meera</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-6">
+                            <a class="w-full inline-flex items-center justify-center gap-2 py-3 bg-surface-container text-on-surface border-[2.5px] border-black hover:bg-surface-container-high hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                                href="#">
+                                <span>TEAM SETUP</span>
+                                <span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- DOCS & RULES CARD -->
+                    <div
+                        class="relative bg-tertiary-fixed border-[3px] border-black p-6 flex flex-col justify-between group hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span
+                                    class="px-2.5 py-1 bg-surface-container-lowest text-on-surface border-[2px] border-black font-label-sm text-label-sm uppercase font-bold">
+                                    RULEBOOK v1.0
+                                </span>
+                                <span class="material-symbols-outlined text-[32px] text-tertiary">menu_book</span>
+                            </div>
+                            <div>
+                                <span
+                                    class="font-code text-code text-on-tertiary-fixed-variant tracking-wider uppercase">04
+                                    // FAIR PLAY</span>
+                                <h2
+                                    class="font-headline-lg text-headline-lg text-on-tertiary-fixed uppercase leading-none mt-1">
+                                    RULES</h2>
+                                <p class="font-body-sm text-body-sm text-on-tertiary-fixed mt-2">
+                                    Coders set up a working baseline before attacks begin. Detectives spend 6 shared
+                                    attack tokens to plant valid bugs. No tampering with the judge, yaar.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2 pt-1">
+                                <span
+                                    class="inline-block px-2 py-0.5 bg-surface-container-lowest border border-black font-code text-[11px] font-bold">6
+                                    ATTACK TOKENS</span>
+                                <span
+                                    class="inline-block px-2 py-0.5 bg-surface-container-lowest border border-black font-code text-[11px] font-bold">C
+                                    ONLY // FAIR PLAY</span>
+                            </div>
+                        </div>
+                        <div class="pt-6">
+                            <a class="w-full inline-flex items-center justify-center gap-2 py-3 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:bg-surface hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                                href="#">
+                                <span>READ RULEBOOK</span>
+                                <span class="material-symbols-outlined text-[18px]">terminal</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- LIVE MATCH STATUS & OPERATIONS HUD SECTION -->
+
+                <!-- RETRO TERMINAL LOG & ACTIVITY TICKER -->
+
+            </div>
+        </div>
+        <script>
+            // Simple interactive features for Dashboard prototype
+            document.addEventListener('DOMContentLoaded', () => {
+                // 1. Live Countdown clock
+                let totalSeconds = 1182;
+                const timerElement = document.getElementById('countdownTimer');
+                if (timerElement) {
+                    setInterval(() => {
+                        if (totalSeconds > 0) {
+                            totalSeconds--;
+                            const minutes = Math.floor(totalSeconds / 60);
+                            const seconds = totalSeconds % 60;
+                            timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                        }
+                    }, 1000);
+                }
+
+                // 2. Terminal Command Execution Mock
+                const cmdInput = document.getElementById('terminalCmdInput');
+                const sendBtn = document.getElementById('sendCmdBtn');
+                const stream = document.getElementById('terminalStream');
+                const clearBtn = document.getElementById('clearLogBtn');
+
+                function appendLog(tag, message, colorClass = 'text-primary') {
+                    const now = new Date();
+                    const timeStr = `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+                    const row = document.createElement('div');
+                    row.className = 'flex items-start gap-3';
+                    row.innerHTML = `
+        <span class="${colorClass} font-bold shrink-0">${timeStr}</span>
+        <span class="text-on-surface"><strong class="${colorClass}">[${tag}]</strong> ${message}</span>
+      `;
+                    stream.prepend(row);
+                }
+
+                if (sendBtn && cmdInput && stream) {
+                    const handleSend = () => {
+                        const val = cmdInput.value.trim();
+                        if (!val) return;
+                        appendLog('USER_CMD', `Executed: "${val}"`, 'text-tertiary');
+                        cmdInput.value = '';
+
+                        // Fake automated response
+                        setTimeout(() => {
+                            appendLog('SYS_RESPONSE', `Command acknowledged by Match Node 04. Status: OK (0)`, 'text-outline');
+                        }, 500);
+                    };
+
+                    sendBtn.addEventListener('click', handleSend);
+                    cmdInput.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') handleSend();
+                    });
+                }
+
+                if (clearBtn && stream) {
+                    clearBtn.addEventListener('click', () => {
+                        stream.innerHTML = `
+          <div class="flex items-start gap-3">
+            <span class="text-outline font-bold shrink-0">[BUFFER CLEARED]</span>
+            <span class="text-on-surface">Terminal output was flushed by local operator.</span>
+          </div>
+        `;
+                    });
+                }
+
+                // 3. Telemetry Toast Feedback
+                const syncBtn = document.getElementById('toggleSyncBtn');
+                if (syncBtn) {
+                    syncBtn.addEventListener('click', () => {
+                        appendLog('TELEMETRY', 'Scoreboard synced with the official tournament referee.', 'text-secondary');
+                        syncBtn.classList.add('bg-secondary-container');
+                        setTimeout(() => {
+                            syncBtn.classList.remove('bg-secondary-container');
+                        }, 600);
+                    });
+                }
+            });
+        </script>
+    </main>
+    <footer class="w-full bg-surface-container-low border-t-[2.5px] border-black mt-auto">
+        <div class="max-w-7xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-space-md">
+            <div class="flex flex-col sm:flex-row items-center gap-space-md">
+                <div
+                    class="flex items-center gap-2 px-2.5 py-1 bg-surface-container-lowest border-[2px] border-black">
+                    <span class="material-symbols-outlined text-on-surface text-[16px]">speed</span><span
+                        class="font-code text-code text-on-surface">MATCH FORMAT: 4v4 // 20 MIN</span></div><span
+                    class="font-body-sm text-body-sm text-on-surface-variant">© 2026 TECH MAFIA // FIND THE HACKER.
+                    ALL RIGHTS RESERVED.</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-space-md font-label-md text-label-md"><a
+                    class="text-on-surface-variant hover:text-on-surface underline underline-offset-4 decoration-black decoration-2"
+                    href="#">Fair Play Rules</a><a
+                    class="text-on-surface-variant hover:text-on-surface underline underline-offset-4 decoration-black decoration-2"
+                    href="#">Tournament Rules</a><a
+                    class="text-on-surface-variant hover:text-on-surface underline underline-offset-4 decoration-black decoration-2"
+                    href="#">Support Desk</a></div>
+        </div>
+    </footer>
+</body>
+
+</html>
