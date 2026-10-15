@@ -619,6 +619,15 @@ function Matches({ s, busy, act }: { s: StateResponse; busy: string; act: Act })
             >
               {busy === "Finalize" ? <Spinner /> : null} Finalize (run hidden)
             </Btn>
+            <Btn
+              variant="secondary"
+              onClick={() =>
+                void act("Reassign modules", "/api/admin/match/rebuild-modules", { matchId: m.id })
+              }
+              disabled={busy === "Reassign modules"}
+            >
+              {busy === "Reassign modules" ? <Spinner /> : null} Reassign modules (fix late joiners)
+            </Btn>
           </div>
         </Card>
       ))}
