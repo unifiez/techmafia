@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { apiGet } from "@/lib/client/api";
 import {
   docs,
   type Battleground,
@@ -170,8 +171,32 @@ function ScorecardView({ card }: { card: Scorecard }) {
 
 /* ---------------------------------------------------------------- page */
 
+type LiveStats = {
+  dbAvailable: boolean;
+  registered: { teams: number; members: number };
+  matches: { total: number; live: number; finalized: number; scheduled: number };
+  tokensPlanted: number;
+  round: { label: string; round: number; phase: string; secondsLeft: number } | null;
+};
+
 export default function DocsPage() {
   const [injected, setInjected] = useState(false);
+  const [live, setLive] = useState<LiveStats | null>(null);
+
+  useEffect(() => {
+    let stop = false;
+    const load = async () => {
+      const res = await apiGet<{ stats: LiveStats }>("/api/overview");
+      if (!stop && res.ok) setLive(res.data.stats);
+    };
+    void load();
+    const id = setInterval(() => void load(), 10000);
+    return () => {
+      stop = true;
+      clearInterval(id);
+    };
+  }, []);
+
   const {
     metaBadges,
     hero,
@@ -181,7 +206,6 @@ export default function DocsPage() {
     chapter4,
     chapter5,
     terminal,
-    footer,
   } = docs;
 
   return (
@@ -216,6 +240,42 @@ export default function DocsPage() {
               </div>
             ))}
           </div>
+
+          {/* Live event status (dynamic) */}
+          <div className="mb-5 grid grid-cols-2 md:grid-cols-4 gap-2.5">
+            <div className="bg-surface-container-low border-[2.5px] border-black px-3 py-2">
+              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Teams Registered</div>
+              <div className="font-headline-sm text-headline-sm text-primary font-bold">
+                {live ? live.registered.teams : "—"}
+              </div>
+            </div>
+            <div className="bg-surface-container-low border-[2.5px] border-black px-3 py-2">
+              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Players Checked In</div>
+              <div className="font-headline-sm text-headline-sm text-primary font-bold">
+                {live ? live.registered.members : "—"}
+              </div>
+            </div>
+            <div className="bg-surface-container-low border-[2.5px] border-black px-3 py-2">
+              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Matches Live</div>
+              <div className="font-headline-sm text-headline-sm text-primary font-bold">
+                {live ? live.matches.live : "—"}
+                <span className="font-body-sm text-body-sm text-on-surface-variant font-normal">
+                  {live ? ` · ${live.matches.finalized} done` : ""}
+                </span>
+              </div>
+            </div>
+            <div className="bg-surface-container-low border-[2.5px] border-black px-3 py-2">
+              <div className="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Current Round</div>
+              <div className="font-headline-sm text-headline-sm text-primary font-bold truncate">
+                {live?.round ? `R${String(live.round.round).padStart(2, "0")} · ${live.round.phase.toUpperCase()}` : "STANDBY"}
+              </div>
+            </div>
+          </div>
+          {live && !live.dbAvailable ? (
+            <div className="mb-5 px-3 py-1.5 bg-surface-container border-[2px] border-black font-body-sm text-body-sm text-on-surface-variant">
+              Live database not connected — stats will appear once the event store is online.
+            </div>
+          ) : null}
 
           {/* Hero Banner */}
           <div className="bg-surface-container-lowest border-[3.5px] border-black p-6 sm:p-10 space-y-6 relative overflow-hidden">

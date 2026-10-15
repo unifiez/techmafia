@@ -1,15 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { leaderboard } from "./leaderboard-data";
+import { useEffect, useMemo, useState } from "react";
+import { leaderboard, type LeaderboardRank } from "./leaderboard-data";
+import { apiGet } from "@/lib/client/api";
+
+type Standing = {
+  teamId: string;
+  name: string;
+  code: string | null;
+  college: string;
+  membersJoined: number;
+  membersTotal: number;
+  matches: number;
+  wins: number;
+  coderPoints: number;
+  detectivePoints: number;
+  totalPoints: number;
+  flagged: boolean;
+  status: "flagged" | "in_match" | "active" | "ready" | "forming";
+};
+
+type BoardMeta = {
+  generatedAt: string;
+  dbAvailable: boolean;
+  registered: { teams: number; members: number };
+  matches: { total: number; live: number; finalized: number; scheduled: number };
+  tokensPlanted: number;
+  round: {
+    label: string;
+    round: number;
+    phase: string;
+    endsAt: string | null;
+    secondsLeft: number;
+  } | null;
+};
 
 /* ------------------------------------------------------ theme helpers */
-
-const META_TONE = {
-  secondary: "bg-secondary-container text-on-secondary-container",
-  surface: "bg-surface-container-lowest text-on-surface",
-  primary: "bg-primary-container text-on-primary-container",
-}
 
 const STATUS_TONE_BG = {
   primary: "bg-primary-container text-on-primary-container",
@@ -25,23 +51,31 @@ const STATUS_TONE_TEXT = {
   container: "text-on-primary-container",
 }
 
-/* ---------------------------------------------------------- components */
-
-function StatusBadge({ tone, label, icon }: { tone: "primary" | "secondary" | "surface" | "container"; label: string; icon?: string }) {
-  const bg = STATUS_TONE_BG[tone]
-  const txt = STATUS_TONE_TEXT[tone]
-  return (
-    <span className={`inline-block px-2 py-0.5 ${bg} border-[1.5px] border-black font-label-sm text-label-sm uppercase font-bold ${txt}`}>
-      {icon ? (
-        <span className="material-symbols-outlined text-[10px]">{icon}</span>
-      ) : null}
-      {label}
-    </span>
-  )
+const STATUS_LABEL: Record<Standing["status"], string> = {
+  flagged: "FLAGGED",
+  in_match: "IN MATCH",
+  active: "ACTIVE",
+  ready: "READY",
+  forming: "FORMING",
 }
 
-function RankRow({ rank, team, solved, planted, repaired, points, status, statusTone, isCurrentTeam }: {
-  rank: number; team: string; solved: number; planted: number; repaired: number; integrity: string; points: number; status: string; statusTone: "primary" | "secondary" | "surface" | "container"; isCurrentTeam?: boolean
+const STATUS_TONE: Record<Standing["status"], keyof typeof STATUS_TONE_BG> = {
+  flagged: "container",
+  in_match: "primary",
+  active: "secondary",
+  ready: "surface",
+  forming: "surface",
+}
+
+function fmtClock(total: number) {
+  const s = Math.max(0, Math.floor(total))
+  return `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`
+}
+
+/* ---------------------------------------------------------- components */
+
+function RankRow({ rank, team, solved, planted, repaired, points, status, statusTone, isCurrentTeam, college }: {
+  rank: number; team: string; solved: number; planted: number; repaired: number; integrity: string; points: number; status: string; statusTone: "primary" | "secondary" | "surface" | "container"; isCurrentTeam?: boolean; college?: string
 }) {
   const statusBadge = (
     <span className={`inline-block px-2 py-0.5 ${STATUS_TONE_BG[statusTone]} border-[1.5px] border-black font-label-sm text-label-sm uppercase font-bold ${STATUS_TONE_TEXT[statusTone]}`}>
@@ -64,6 +98,11 @@ function RankRow({ rank, team, solved, planted, repaired, points, status, status
             </span>
           )}
         </div>
+        {college ? (
+          <div className="font-body-sm text-body-sm text-on-surface-variant normal-case font-normal truncate max-w-[340px]">
+            {college}
+          </div>
+        ) : null}
       </td>
       <td className="py-space-sm px-space-md border-r-[2px] border-black font-code text-code text-center font-bold">
         {solved}
@@ -87,15 +126,93 @@ function RankRow({ rank, team, solved, planted, repaired, points, status, status
 /* ------------------------------------------------------------ page */
 
 export default function LeaderboardPage() {
-  const [injected, setInjected] = useState(false)
+  const [standings, setStandings] = useState<Standing[] | null>(null)
+  const [meta, setMeta] = useState<BoardMeta | null>(null)
+  const [myTeamId, setMyTeamId] = useState<string | null>(null)
+  const [view, setView] = useState<"top" | "all">("all")
+  const [page, setPage] = useState(1)
+  const [query, setQuery] = useState("")
+  const [refreshKey, setRefreshKey] = useState(0)
+  const [now, setNow] = useState(0)
 
-  const {
-    hero,
-    round,
-    podium,
-    tableRows,
-    bracketModal,
-  } = leaderboard
+  useEffect(() => {
+    let stop = false
+    const load = async () => {
+      const [board, me] = await Promise.all([
+        apiGet<{ standings: Standing[]; meta: BoardMeta }>("/api/leaderboard"),
+        apiGet<{ team?: { id: string } | null }>("/api/auth/me"),
+      ])
+      if (stop) return
+      if (board.ok) {
+        setStandings(board.data.standings)
+        setMeta(board.data.meta)
+      }
+      setMyTeamId(me.ok && me.data.team ? me.data.team.id : null)
+    }
+    void load()
+    const id = setInterval(() => void load(), 10000)
+    return () => {
+      stop = true
+      clearInterval(id)
+    }
+  }, [refreshKey])
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const { hero, bracketModal } = leaderboard
+
+  const liveRows = useMemo<LeaderboardRank[] | null>(() => {
+    if (!standings) return null
+    return standings.map((s, i) => ({
+      rank: i + 1,
+      team: s.name,
+      solved: s.wins,
+      planted: s.detectivePoints,
+      repaired: s.coderPoints,
+      integrity: `${s.membersJoined}/${s.membersTotal}`,
+      points: s.totalPoints,
+      status: s.flagged ? "FLAGGED" : STATUS_LABEL[s.status],
+      statusIcon: s.flagged ? "gavel" : undefined,
+      statusTone: STATUS_TONE[s.status],
+      isCurrentTeam: Boolean(myTeamId && s.teamId === myTeamId),
+      matches: s.matches,
+      college: s.college,
+    }))
+  }, [standings, myTeamId])
+
+  const top8 = view === "top"
+  const filteredRows = useMemo(() => {
+    const all = liveRows ?? []
+    const base = top8 ? all.slice(0, 8) : all
+    const q = query.trim().toLowerCase()
+    return q ? base.filter((r) => r.team.toLowerCase().includes(q)) : base
+  }, [liveRows, top8, query])
+
+  const pageSize = 10
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize))
+  const currentPage = Math.min(page, totalPages)
+  const pageRows = filteredRows.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
+  const podium = (liveRows ?? []).slice(0, 3)
+  const loaded = liveRows !== null
+  const live = Boolean(liveRows && liveRows.length > 0)
+  const dbOffline = Boolean(meta && !meta.dbAvailable)
+
+  const roundLabel = meta?.round
+    ? `ROUND ${String(meta.round.round).padStart(2, "0")} // ${meta.round.phase.toUpperCase()}`
+    : "AWAITING ROUND"
+  const roundClock = useMemo(() => {
+    const r = meta?.round
+    if (!r) return "--:--"
+    if (!r.endsAt) return fmtClock(r.secondsLeft)
+    const secs = now ? Math.max(0, Math.round((Date.parse(r.endsAt) - now) / 1000)) : r.secondsLeft
+    return fmtClock(secs)
+  }, [meta, now])
+
+  const totalTeams = meta?.registered.teams ?? filteredRows.length
 
   return (
     <div className="w-full">
@@ -115,6 +232,10 @@ export default function LeaderboardPage() {
                 </h1>
                 <p className="font-body-lg text-body-lg text-on-surface-variant font-medium">
                   Tournament standings and bracket for the current round.
+                  {" "}
+                  {meta
+                    ? `${meta.registered.teams} ${meta.registered.teams === 1 ? "team" : "teams"} registered · ${meta.matches.finalized} ${meta.matches.finalized === 1 ? "match" : "matches"} finalized.`
+                    : "Loading live standings…"}
                 </p>
               </div>
 
@@ -122,14 +243,16 @@ export default function LeaderboardPage() {
               <div className="flex flex-row sm:flex-col gap-3 min-w-[220px]">
                 <div className="flex-1 bg-surface-container-low border-[2.5px] border-black p-3.5">
                   <div className="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">
-                    {round.label}
+                    {roundLabel}
                   </div>
                   <div className="font-headline-sm text-label-lg text-primary font-bold">
-                    {round.clock}
+                    {roundClock}
                   </div>
                 </div>
                 <button
-                  className="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+                  type="button"
+                  onClick={() => setRefreshKey((k) => k + 1)}
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase"
                   id="toggleSyncBtn">
                   <span className="material-symbols-outlined text-[18px]">sync</span>
                   Sync Scoreboard
@@ -154,7 +277,7 @@ export default function LeaderboardPage() {
                     >
                       {`#${rank.rank}`}
                     </span>
-                    {rank.rank === 3 && (
+                    {rank.isCurrentTeam && (
                       <span
                         className="px-space-sm py-1 bg-primary text-on-primary border-[2px] border-black font-label-sm text-label-sm uppercase font-bold tracking-wider animate-pulse"
                       >
@@ -166,6 +289,11 @@ export default function LeaderboardPage() {
                     <div className="font-headline-md text-headline-md uppercase text-on-surface leading-none">
                       {rank.team}
                     </div>
+                    {rank.college ? (
+                      <div className="font-body-sm text-body-sm text-on-surface-variant mt-1 truncate">
+                        {rank.college}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="mt-space-md pt-space-sm border-t-[2px] border-black flex flex-col gap-space-xs">
@@ -180,15 +308,15 @@ export default function LeaderboardPage() {
                     <div
                       className={`bg-surface-container-lowest border-[2px] border-black py-1 px-2`}
                     >
-                      <span className="block font-label-sm text-label-sm text-on-surface-variant uppercase">WIN STREAK</span>
+                      <span className="block font-label-sm text-label-sm text-on-surface-variant uppercase">MATCHES</span>
                       <span className="font-code text-code text-on-surface font-bold">
-                        {rank.solved > 30 ? "8 WINS ⚡" : rank.solved > 25 ? "5 WINS 🔥" : "3 WINS"}
+                        {rank.matches ?? 0}
                       </span>
                     </div>
                     <div
                       className={`bg-surface-container-lowest border-[2px] border-black py-1 px-2`}
                     >
-                      <span className="block font-label-sm text-label-sm text-on-surface-variant uppercase">SOLVED</span>
+                      <span className="block font-label-sm text-label-sm text-on-surface-variant uppercase">WINS</span>
                       <span className="font-code text-code text-on-surface font-bold">
                         {rank.solved}
                       </span>
@@ -197,6 +325,11 @@ export default function LeaderboardPage() {
                 </div>
               </div>
             ))}
+            {podium.length === 0 && (
+              <div className="md:col-span-3 bg-surface-container-lowest border-[3px] border-black p-space-md text-center font-body-md text-body-md text-on-surface-variant">
+                {loaded ? "No results yet — the podium fills in as matches are finalized." : "Loading standings…"}
+              </div>
+            )}
           </div>
         </section>
 
@@ -207,11 +340,19 @@ export default function LeaderboardPage() {
               <span className="material-symbols-outlined text-[20px] text-on-surface">tune</span>
               <span className="font-label-md text-label-md uppercase text-on-surface">ROSTER VIEW:</span>
               <div className="flex items-center gap-1">
-                <button className="px-space-sm py-1 bg-secondary-container border-[1.5px] border-black font-label-sm text-label-sm uppercase text-on-surface cursor-pointer">
+                <button
+                  type="button"
+                  onClick={() => { setView("top"); setPage(1) }}
+                  className={`px-space-sm py-1 border-[1.5px] border-black font-label-sm text-label-sm uppercase text-on-surface cursor-pointer ${top8 ? "bg-secondary-container" : "bg-surface-container hover:bg-surface-container-high transition-colors"}`}
+                >
                   CHAMPIONSHIP (TOP 8)
                 </button>
-                <button className="px-space-sm py-1 bg-surface-container border-[1.5px] border-black hover:bg-surface-container-high transition-colors font-label-sm text-label-sm uppercase text-on-surface cursor-pointer">
-                  ALL 32
+                <button
+                  type="button"
+                  onClick={() => { setView("all"); setPage(1) }}
+                  className={`px-space-sm py-1 border-[1.5px] border-black font-label-sm text-label-sm uppercase text-on-surface cursor-pointer ${!top8 ? "bg-secondary-container" : "bg-surface-container hover:bg-surface-container-high transition-colors"}`}
+                >
+                  ALL {totalTeams}
                 </button>
               </div>
             </div>
@@ -219,6 +360,8 @@ export default function LeaderboardPage() {
               <span className="font-code text-code text-on-surface-variant uppercase">QUICK SEARCH:</span>
               <div className="relative flex-1 sm:w-44">
                 <input
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setPage(1) }}
                   className="w-full bg-surface border-[2px] border-black px-2 py-0.5 font-code text-code text-on-surface uppercase focus:outline-none focus:bg-surface-container-lowest"
                   id="syndicateSearchInput"
                   placeholder="FILTER TEAM..."
@@ -241,17 +384,14 @@ export default function LeaderboardPage() {
                     TEAM NAME
                   </th>
                   <th className="py-space-sm px-space-sm font-label-md text-label-md uppercase border-r-[2px] border-black text-center">
-                    SOLVED
+                    WINS
                   </th>
                   <th className="py-space-sm px-space-sm font-label-md text-label-md uppercase border-r-[2px] border-black text-center">
-                    PLANTED
+                    ATTACK
                   </th>
                   <th className="py-space-sm px-space-sm font-label-md text-label-md uppercase border-r-[2px] border-black text-center">
-                    REPAIRED
+                    REPAIR
                   </th>
-                  {/* <th className="py-space-sm px-space-sm font-label-md text-label-md uppercase border-r-[2px] border-black text-center">
-                    INTEGRITY
-                  </th> */}
                   <th className="py-space-sm px-space-md font-label-md text-label-md uppercase border-r-[2px] border-black text-right">
                     POINTS
                   </th>
@@ -261,7 +401,7 @@ export default function LeaderboardPage() {
                 </tr>
               </thead>
               <tbody className="font-body-md text-body-md text-on-surface divide-y-[2px] divide-black" id="leaderboardTableBody">
-                {tableRows.map((row) => (
+                {pageRows.map((row) => (
                   <RankRow
                     key={row.rank}
                     rank={row.rank}
@@ -274,8 +414,16 @@ export default function LeaderboardPage() {
                     status={row.status}
                     statusTone={row.statusTone}
                     isCurrentTeam={row.isCurrentTeam}
+                    college={row.college}
                   />
                 ))}
+                {pageRows.length === 0 && (
+                  <tr>
+                    <td colSpan={7} className="py-space-lg px-space-md text-center font-body-md text-body-md text-on-surface-variant">
+                      {loaded ? "No teams match your search." : "Loading live standings…"}
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -285,17 +433,31 @@ export default function LeaderboardPage() {
             className="flex flex-col sm:flex-row items-center justify-between gap-space-xs px-space-xs font-body-sm text-body-sm text-on-surface-variant"
           >
             <div>
-              Showing <span className="font-bold text-on-surface">1 - 8</span> of <span className="font-bold text-on-surface">32</span> registered syndicates. Auto-refreshing every 10 seconds.
+              Showing <span className="font-bold text-on-surface">
+                {filteredRows.length === 0 ? 0 : (currentPage - 1) * pageSize + 1} - {Math.min(currentPage * pageSize, filteredRows.length)}
+              </span> of <span className="font-bold text-on-surface">{filteredRows.length}</span> teams.
+              {" "}
+              {dbOffline
+                ? "Live database not connected — no teams are registered yet."
+                : live
+                  ? "Live standings."
+                  : "Awaiting first results."}
             </div>
             <div className="flex items-center gap-space-xs">
               <button
-                className="px-space-sm py-1 bg-surface-container border-[2px] border-black font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-all cursor-pointer"
+                type="button"
+                onClick={() => setPage((p) => Math.max(1, Math.min(p, totalPages) - 1))}
+                disabled={currentPage <= 1}
+                className="px-space-sm py-1 bg-surface-container border-[2px] border-black font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 PREV
               </button>
-              <span className="font-code text-code text-on-surface px-1">PAGE 01 / 04</span>
+              <span className="font-code text-code text-on-surface px-1">PAGE {String(currentPage).padStart(2, "0")} / {String(totalPages).padStart(2, "0")}</span>
               <button
-                className="px-space-sm py-1 bg-surface-container border-[2px] border-black font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-all cursor-pointer"
+                type="button"
+                onClick={() => setPage((p) => Math.min(totalPages, Math.min(p, totalPages) + 1))}
+                disabled={currentPage >= totalPages}
+                className="px-space-sm py-1 bg-surface-container border-[2px] border-black font-label-sm text-label-sm uppercase hover:bg-surface-container-high transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 NEXT
               </button>
@@ -328,48 +490,18 @@ export default function LeaderboardPage() {
               </div>
 
               <div className="flex flex-col gap-6 p-4">
-                <div className="flex items-center gap-3">
-                  <span className="w-10 h-10 rounded-full bg-primary text-on-primary font-bold font-bold">1</span>
-                  <span className="font-headline-sm text-headline-sm text-on-surface">
-                    NullPointer Guild (1st)
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="w-10 h-10 rounded-full bg-secondary-fixed text-on-secondary-fixed font-bold font-bold">2</span>
-                  <span className="font-headline-sm text-headline-sm text-on-surface">
-                    ByteBandits (2nd)
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span className="w-10 h-10 rounded-full bg-primary-fixed text-on-primary-fixed font-bold font-bold">3</span>
-                  <span className="font-headline-sm text-headline-sm text-on-surface">
-                    Sher Syndicate (3rd) — YOUR TEAM
-                  </span>
-                </div>
+                {podium.map((rank) => (
+                  <div key={rank.rank} className="flex items-center gap-3">
+                    <span className="w-10 h-10 rounded-full bg-primary text-on-primary font-bold flex items-center justify-center">{rank.rank}</span>
+                    <span className="font-headline-sm text-headline-sm text-on-surface">
+                      {rank.team} ({rank.rank === 1 ? "1st" : rank.rank === 2 ? "2nd" : "3rd"})
+                    </span>
+                  </div>
+                ))}
                 <p className="font-body-sm text-body-sm text-on-surface-variant">
-                  Bracket continues through 32 teams · Auto-refresh every 10 seconds
+                  Bracket continues through {totalTeams} teams · Auto-refresh every 10 seconds
                 </p>
               </div>
-              <button
-                type="button"
-                onClick={() => setInjected(!injected)}
-                className="px-3.5 py-1.5 bg-primary-container hover:bg-primary-container/90 border-[2px] border-black font-label-sm text-label-sm uppercase animate-pulse flex items-center gap-1 font-bold"
-              >
-                <span className="material-symbols-outlined text-[16px]">bolt</span>
-                {injected ? "Reset Clean Code" : "Inject 2-Token Flaw"}
-              </button>
-              <p className="font-body-sm text-body-sm text-on-surface-variant mt-2">
-                {bracketModal.hint}
-              </p>
-              <pre className="whitespace-pre">
-                <code>
-                  {bracketModal.cleanCode.map((line) => (
-                    <div>
-                      {line}
-                    </div>
-                  ))}
-                </code>
-              </pre>
               <p className="font-body-sm text-body-sm text-on-surface-variant mt-2">
                 Compiler: {bracketModal.compiler}
               </p>

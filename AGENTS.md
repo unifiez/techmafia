@@ -1,9 +1,7 @@
-<!-- BEGIN:nextjs-agent-rules -->
+60092adb2598a116a6289dcf02758697ce50c38e6ca008e5e306abdba5daf6e2
 
-## This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+c3fa2e0a431234db0165ddfe4498fdeddd0f0bbd961208a4797fadf4bc3bd528
 
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
-<!-- END:nextjs-agent-rules -->
+81ad38c35125a79f60c3a85cb7d7d0a5355047421a82ecaced5f79aadf16aa90

@@ -57,6 +57,7 @@ export type FooterBadge = {
 export type CompetitionData = {
   liveLabel: string;
   round: { label: string; number: string };
+  stage: { label: string; name: string; active: boolean };
   teams: { alpha: TeamInfo; target: TeamInfo };
   timer: { label: string; initialSeconds: number; recording: boolean };
   problem: ProblemSpec;
@@ -76,13 +77,16 @@ export const competition: CompetitionData = {
   liveLabel: "LIVE ARENA",
   round: { label: "ROUND", number: "01" },
 
+  // Stage 2: The Infiltration (09:00 - 11:00)
+  stage: { label: "STAGE 02", name: "INFILTRATION", active: true },
+
   teams: {
     alpha: { label: "ALPHA NODE", name: "ACME-8492", role: "CODERS" },
     target: { label: "TARGET", name: "SHADOW SYNDICATE", role: "DETECTIVES" },
   },
 
-  // 08:36 on the clock
-  timer: { label: "COUNTDOWN EXPIRATION", initialSeconds: 8 * 60 + 36, recording: true },
+  // 09:00 remaining - Infiltration phase
+  timer: { label: "INFILTRATION TIMER", initialSeconds: 11 * 60, recording: true },
 
   problem: {
     cve: "CVE-TRAP #049",
@@ -103,7 +107,7 @@ export const competition: CompetitionData = {
 
   codeFile: {
     name: "calculate_core.c",
-    status: "MODIFIED",
+    status: "INJECTED", // Bugs injected during Stage 2 Infiltration
     cursor: { line: 15, col: 24 },
     source: [
       "#include <stdio.h>",

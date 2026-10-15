@@ -1,8 +1,44 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { hero, cards, matchStatus, HomeCard, Tone } from "./home-data";
+import { hero, HomeCard, Tone } from "./home-data";
+import { apiGet } from "@/lib/client/api";
+
+type Standing = {
+  teamId: string;
+  name: string;
+  code: string | null;
+  college: string;
+  membersJoined: number;
+  membersTotal: number;
+  matches: number;
+  wins: number;
+  coderPoints: number;
+  detectivePoints: number;
+  totalPoints: number;
+  flagged: boolean;
+  status: string;
+};
+
+type BoardMeta = {
+  dbAvailable: boolean;
+  registered: { teams: number; members: number };
+  matches: { total: number; live: number; finalized: number; scheduled: number };
+  tokensPlanted: number;
+  round: { label: string; round: number; phase: string; endsAt: string | null; secondsLeft: number } | null;
+};
+
+type MeResponse = {
+  authenticated: boolean;
+  user?: { id: string; name: string; isCaptain: boolean; disqualified: boolean };
+  team?: {
+    id: string;
+    name: string;
+    code: string;
+    members: { name: string; memberIndex: number; joined: boolean; isSelf?: boolean | "" }[];
+  } | null;
+};
 
 // Full class strings so Tailwind can see them (no `bg-${tone}-...`)
 const TONE: Record<
@@ -151,13 +187,151 @@ function HomeCardComponent({ card, clock }: { card: HomeCard; clock?: string }) 
   );
 }
 
+const PHASE_TEXT: Record<string, string> = {
+  lobby: "Teams are checking in",
+  briefing: "Briefing the squads",
+  coding: "Coders are building the baseline",
+  attack: "Detectives are planting bugs",
+  repair: "Coders are repairing their modules",
+  testing: "Final tests are running",
+  complete: "Round complete",
+};
+
 export default function HomePage() {
-  const [timerSeconds, setTimerSeconds] = useState(matchStatus.totalSeconds);
+  const [standings, setStandings] = useState<Standing[] | null>(null);
+  const [meta, setMeta] = useState<BoardMeta | null>(null);
+  const [me, setMe] = useState<MeResponse | null>(null);
+  const [now, setNow] = useState(0);
 
   useEffect(() => {
-    const id = setInterval(() => setTimerSeconds((p) => (p > 0 ? p - 1 : 0)), 1000);
+    let stop = false;
+    const load = async () => {
+      const [board, meRes] = await Promise.all([
+        apiGet<{ standings: Standing[]; meta: BoardMeta }>("/api/leaderboard"),
+        apiGet<MeResponse>("/api/auth/me"),
+      ]);
+      if (stop) return;
+      if (board.ok) {
+        setStandings(board.data.standings);
+        setMeta(board.data.meta);
+      }
+      if (meRes.ok) setMe(meRes.data);
+    };
+    void load();
+    const id = setInterval(() => void load(), 10000);
+    return () => {
+      stop = true;
+      clearInterval(id);
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  const authed = Boolean(me?.authenticated && me.user);
+  const rows = useMemo(() => standings ?? [], [standings]);
+
+  const myStanding = useMemo(
+    () => (me?.team ? rows.find((r) => r.teamId === me.team?.id) ?? null : null),
+    [rows, me],
+  );
+  const leader = rows[0] ?? null;
+
+  const clock = useMemo(() => {
+    const r = meta?.round;
+    if (!r) return undefined;
+    if (!r.endsAt) return formatClock(r.secondsLeft);
+    const secs = now ? Math.max(0, Math.round((Date.parse(r.endsAt) - now) / 1000)) : r.secondsLeft;
+    return formatClock(secs);
+  }, [meta, now]);
+
+  const cards = useMemo<HomeCard[]>(() => {
+    const round = meta?.round ?? null;
+    const phaseText = round ? PHASE_TEXT[round.phase] ?? "Round in progress" : "No round in progress";
+
+    const squad: HomeCard = authed && me?.team
+      ? {
+          id: "squad",
+          badge: `CODER TEAM ${me.team.members.filter((m) => m.joined).length}/4`,
+          eyebrow: "03 // CODER TEAM ROSTER",
+          title: "SQUAD",
+          roster: me.team.members.slice(0, 4).map((m) => ({
+            label: `CODER ${m.memberIndex + 1}`,
+            name: m.name,
+            lead: m.memberIndex === 0,
+          })),
+          buttonText: "TEAM SETUP",
+          buttonHref: "/team",
+          buttonIcon: "manage_accounts",
+          icon: "groups",
+          tone: "surface",
+        }
+      : {
+          id: "squad",
+          badge: "4 CODERS PER SQUAD",
+          eyebrow: "03 // CODER TEAM ROSTER",
+          title: "SQUAD",
+          description: "Sign in with your college roll to see your squad and check-in status.",
+          buttonText: "REGISTER / SIGN IN",
+          buttonHref: "/register",
+          buttonIcon: "login",
+          icon: "groups",
+          tone: "surface",
+        };
+
+    return [
+      {
+        id: "compete",
+        badge: round ? `ROUND ${String(round.round).padStart(2, "0")} LIVE` : "AWAITING ROUND",
+        eyebrow: `01 // ${round ? round.phase.toUpperCase() : "ARENA"}`,
+        title: "ARENA",
+        description: round
+          ? `${phaseText} · ${meta?.matches.live ?? 0} ${(meta?.matches.live ?? 0) === 1 ? "match" : "matches"} in play.`
+          : "4v4 face-off: Coders vs Detectives. The next round will appear here automatically.",
+        showClock: Boolean(round),
+        buttonText: "ENTER ARENA",
+        buttonHref: "/compete",
+        buttonIcon: "arrow_forward",
+        icon: "swords",
+        tone: "primary",
+      },
+      {
+        id: "leaderboard",
+        badge: myStanding ? "LEADERBOARD // YOUR RANK" : "LEADERBOARD",
+        eyebrow: "02 // SCOREBOARD",
+        title: "RANKS",
+        rank: myStanding ? `#${String(rows.indexOf(myStanding) + 1).padStart(2, "0")}` : leader ? "#01" : "—",
+        points: `${myStanding?.totalPoints ?? leader?.totalPoints ?? 0} PTS`,
+        description: myStanding
+          ? `${myStanding.wins} ${myStanding.wins === 1 ? "win" : "wins"} · ${myStanding.totalPoints} pts this event.`
+          : leader
+            ? `Leader: ${leader.name} — ${leader.totalPoints} pts.`
+            : "Standings appear once the first round is finalized.",
+        buttonText: "FULL STANDINGS",
+        buttonHref: "/leaderboard",
+        buttonIcon: "trending_up",
+        icon: "military_tech",
+        tone: "secondary",
+      },
+      squad,
+      {
+        id: "docs",
+        badge: "RULEBOOK V1.0",
+        eyebrow: "04 // FAIR PLAY",
+        title: "RULES",
+        description:
+          "Coders set up a working baseline before attacks begin. Detectives spend shared attack tokens to plant valid bugs. No tampering with the judge.",
+        tags: ["6 ATTACK TOKENS", "C ONLY // FAIR PLAY"],
+        buttonText: "READ RULEBOOK",
+        buttonHref: "/docs",
+        buttonIcon: "terminal",
+        icon: "menu_book",
+        tone: "container",
+      },
+    ];
+  }, [meta, authed, me, myStanding, leader, rows]);
 
   return (
     <div className="w-full">
@@ -169,27 +343,40 @@ export default function HomePage() {
               {hero.title}
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-              Welcome back,{" "}
-              <strong className="text-on-surface underline decoration-primary decoration-4">
-                {hero.agent}
-              </strong>{" "}
-              [{hero.team}]. Matchday 2026 is{" "}
+              {authed ? (
+                <>
+                  Welcome back,{" "}
+                  <strong className="text-on-surface underline decoration-primary decoration-4">
+                    {me?.user?.name}
+                  </strong>{" "}
+                  [{me?.team?.name ?? "No squad"}].{" "}
+                </>
+              ) : (
+                <>Welcome to the arena. </>
+              )}
+              Matchday 2026 is{" "}
               <span className="bg-primary-container text-on-primary-container px-2 py-0.5 border border-black font-label-md uppercase">
-                LIVE
+                {meta?.round ? "LIVE" : "STANDBY"}
               </span>
               . {hero.tagline}
             </p>
           </div>
 
           <div className="flex items-center gap-3 self-start md:self-end">
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase">
+            <Link
+              href={authed ? "/compete" : "/login"}
+              className="flex items-center gap-2 px-4 py-2.5 bg-surface-container-lowest text-on-surface border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+            >
               <span className="material-symbols-outlined text-[18px]">terminal</span>
               Lets Cook
-            </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase">
+            </Link>
+            <Link
+              href="/docs"
+              className="flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary border-[2.5px] border-black hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0_0_#000000] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all font-label-md text-label-md uppercase"
+            >
               <span className="material-symbols-outlined text-[18px]">emergency</span>
               Panic Pause
-            </button>
+            </Link>
           </div>
         </div>
 
@@ -199,7 +386,7 @@ export default function HomePage() {
             <HomeCardComponent
               key={card.id}
               card={card}
-              clock={card.showClock ? formatClock(timerSeconds) : undefined}
+              clock={card.showClock ? clock : undefined}
             />
           ))}
         </div>

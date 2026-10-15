@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_standard" name="shell-type" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+        id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#410006", "on-error": "#ffffff", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#544600", "on-tertiary-container": "#003268", "surface-bright": "#fff9eb", "tertiary-fixed": "#d6e3ff", "on-tertiary-fixed-variant": "#00468c", "secondary-fixed": "#ffe16d", "on-error-container": "#93000a", "outline-variant": "#e0bfbd", "background": "#fff9eb", "surface-dim": "#e0dac7", "on-tertiary": "#ffffff", "on-tertiary-fixed": "#001b3e", "surface-container-highest": "#e9e2cf", "surface-tint": "#ae2f34", "tertiary-fixed-dim": "#a9c7ff", "on-background": "#1e1c10", "secondary-fixed-dim": "#e2c54e", "primary": "#ae2f34", "surface-container": "#f4eeda", "surface-container-lowest": "#ffffff", "secondary": "#705d00", "inverse-surface": "#333023", "tertiary": "#005db8", "on-secondary-container": "#756100", "on-primary-fixed-variant": "#8c1520", "on-primary-container": "#6d0010", "on-secondary-fixed": "#221b00", "on-surface-variant": "#584140", "on-primary": "#ffffff", "primary-container": "#ff6b6b", "error-container": "#ffdad6", "inverse-primary": "#ffb3b0", "tertiary-container": "#589bff", "surface": "#fff9eb", "inverse-on-surface": "#f7f0dd", "outline": "#8c706f", "primary-fixed-dim": "#ffb3b0", "secondary-container": "#fdde64", "surface-container-low": "#faf3df", "error": "#ba1a1a", "surface-variant": "#e9e2cf", "surface-container-high": "#efe8d4", "on-surface": "#1e1c10", "primary-fixed": "#ffdad8" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "1.5rem", "space-md": "1rem", "space-lg": "1.5rem", "space-sm": "0.5rem", "space-xs": "0.25rem", "space-xl": "2.25rem", "margin": "2.5rem" }, "fontFamily": { "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Space Grotesk"], "headline-lg": ["Space Grotesk"], "headline-md": ["Space Grotesk"], "headline-xl": ["Space Grotesk"], "code": ["Space Grotesk"], "label-lg": ["Space Grotesk"], "label-md": ["Space Grotesk"], "body-sm": ["Plus Jakarta Sans"], "label-sm": ["Space Grotesk"], "body-lg": ["Plus Jakarta Sans"] }, "fontSize": { "body-md": ["15px", { "lineHeight": "24px", "fontWeight": "500" }], "headline-sm": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "headline-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-xl": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.03em", "fontWeight": "700" }], "code": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-lg": ["15px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "700" }], "label-md": ["13px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "700" }], "body-sm": ["13px", { "lineHeight": "20px", "fontWeight": "500" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "500" }] } } } };</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface antialiased">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b-[2.5px] border-black shadow-[0_4px_0_0_#000000]">
+        <div class="h-20 max-w-[1400px] mx-auto px-gutter flex items-center justify-between gap-space-md">
+            <div class="flex items-center gap-space-lg"><a
+                    class="flex items-center gap-space-xs bg-secondary-container px-space-md py-space-xs border-[2px] border-black shadow-[3px_3px_0px_#000000] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4.5px_4.5px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
+                    data-path="home" href="#"><span
+                        class="font-headline-sm text-headline-sm tracking-tight text-on-surface uppercase">TECH
+                        MAFIA</span><span class="font-code text-code text-primary font-bold">// BRUTAL-UI</span></a>
+                <nav class="hidden xl:flex items-center gap-space-xs"
+                    data-active-classes="bg-primary-container text-on-surface border-[2px] border-black shadow-[3px_3px_0px_#000000]">
+                    <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="home" href="#">Home</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="leaderboard" href="#">Leaderboard</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="team" href="#">Team</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all relative flex items-center gap-space-xs"
+                        data-path="compete" href="#">Compete<span
+                            class="inline-block w-2.5 h-2.5 rounded-full bg-primary animate-pulse border border-black"></span></a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="docs" href="#">Docs</a><a
+                        class="font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high px-space-md py-space-xs border-[2px] border-transparent transition-all"
+                        data-path="profile" href="#">Profile</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-space-md">
+                <div
+                    class="hidden md:flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs border-[2px] border-black shadow-[2px_2px_0px_#000000]">
+                    <span class="w-2.5 h-2.5 rounded-full bg-tertiary-container border border-black"></span><span
+                        class="font-code text-code text-on-surface uppercase">STATUS: MATCH ACTIVE</span>
+                </div>
+                <div
+                    class="hidden sm:flex items-center gap-space-xs bg-secondary px-space-md py-space-xs border-[2px] border-black shadow-[3px_3px_0px_#000000] text-on-secondary">
+                    <span class="font-label-sm text-label-sm">SYNDICATE #8492</span>
+                </div>
+                <div
+                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center border-[2px] border-black shadow-[2px_2px_0px_#000000]">
+                    <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-20 bg-background min-h-screen">
+        <div class="flex flex-col w-full">
+            <!-- Content Canvas Container -->
+            <div class="max-w-[1400px] w-full mx-auto px-gutter py-space-lg flex flex-col gap-space-lg">
+
+                <!-- Top Metrics Bar: 4 High-Impact Stat Blocks -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+                    <!-- Stat 1 -->
+                    <div
+                        class="bg-surface-container-lowest border-[2.5px] border-black p-space-md shadow-[4px_4px_0px_#000000] flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between pb-space-sm">
+                            <span class="font-label-md text-label-md uppercase text-on-surface-variant">MATCHES
+                                PLAYED</span>
+                            <div
+                                class="w-8 h-8 rounded-full bg-tertiary-container flex items-center justify-center border-[2px] border-black shadow-[1.5px_1.5px_0px_#000000]">
+                                <span class="material-symbols-outlined text-on-surface text-[18px]">terminal</span>
+                            </div>
+                        </div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface my-space-xs">14</div>
+                        <div
+                            class="flex items-center gap-space-xs pt-space-xs border-t-[2px] border-black text-on-surface-variant font-code text-code">
+                            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            <span>100% Completed, Flawless Finish</span>
+                        </div>
+                    </div>
+                    <!-- Stat 2 -->
+                    <div
+                        class="bg-surface-container-lowest border-[2.5px] border-black p-space-md shadow-[4px_4px_0px_#000000] flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between pb-space-sm">
+                            <span class="font-label-md text-label-md uppercase text-on-surface-variant">WIN RATIO</span>
+                            <div
+                                class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center border-[2px] border-black shadow-[1.5px_1.5px_0px_#000000]">
+                                <span class="material-symbols-outlined text-on-surface text-[18px]">trophy</span>
+                            </div>
+                        </div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface my-space-xs">82%</div>
+                        <div
+                            class="flex items-center gap-space-xs pt-space-xs border-t-[2px] border-black text-on-surface-variant font-code text-code">
+                            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            <span>11W • 3L (+4 Win Streak)</span>
+                        </div>
+                    </div>
+                    <!-- Stat 3 -->
+                    <div
+                        class="bg-surface-container-lowest border-[2.5px] border-black p-space-md shadow-[4px_4px_0px_#000000] flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between pb-space-sm">
+                            <span class="font-label-md text-label-md uppercase text-on-surface-variant"> Team Code </span>
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center border-[2px] border-black shadow-[1.5px_1.5px_0px_#000000]">
+                                <span class="material-symbols-outlined text-on-surface text-[18px]">bug_report</span>
+                            </div>
+                        </div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface my-space-xs">635-7</div>
+                        <div
+                            class="flex items-center gap-space-xs pt-space-xs border-t-[2px] border-black text-on-surface-variant font-code text-code">
+                            <span class="w-2 h-2 rounded-full bg-primary"></span>
+                            <span>Avg 3.4/match (Top 3% Div)</span>
+                        </div>
+                    </div>
+                    <!-- Stat 4 -->
+                    <div
+                        class="bg-surface-container-lowest border-[2.5px] border-black p-space-md shadow-[4px_4px_0px_#000000] flex flex-col justify-between relative overflow-hidden">
+                        <div class="flex items-center justify-between pb-space-sm">
+                            <span class="font-label-md text-label-md uppercase text-on-surface-variant">TOTAL
+                                POINTS</span>
+                            <div
+                                class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center border-[2px] border-black shadow-[1.5px_1.5px_0px_#000000]">
+                                <span class="material-symbols-outlined text-on-surface text-[18px]">military_tech</span>
+                            </div>
+                        </div>
+                        <div class="font-headline-xl text-headline-xl text-on-surface my-space-xs">1,240 <span
+                                class="font-headline-sm text-headline-sm">PTS</span></div>
+                        <div
+                            class="flex items-center gap-space-xs pt-space-xs border-t-[2px] border-black text-on-surface-variant font-code text-code">
+                            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            <span>+180 This Cycle (Tier 1 Rank)</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Two-Column Chassis -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+                    <!-- LEFT COLUMN: Identity & Competency Matrix -->
+                    <div class="lg:col-span-6 flex flex-col gap-space-lg">
+                        <!-- Agent Identity Card -->
+                        <div
+                            class="bg-surface-container-lowest border-[3px] border-black shadow-[5px_5px_0px_#000000] p-space-lg flex flex-col gap-space-md">
+                            <div class="flex items-center justify-between border-b-[2.5px] border-black pb-space-sm">
+                                <span class="font-headline-sm text-headline-sm uppercase text-on-surface">OPERATIVE
+                                    DOSSIER</span>
+                                <span
+                                    class="font-label-sm text-label-sm px-space-sm py-space-xs bg-secondary-container border-[2px] border-black shadow-[2px_2px_0px_#000000] uppercase">
+                                    STATUS: COMBAT READY
+                                </span>
+                            </div>
+                            <!-- Avatar & Primary Callout -->
+                            <div
+                                class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md p-space-md bg-surface-container-low border-[2px] border-black shadow-[3px_3px_0px_#000000]">
+                                <div class="relative">
+                                    <div
+                                        class="w-20 h-20 bg-primary-container border-[2.5px] border-black shadow-[3px_3px_0px_#000000] flex items-center justify-center text-on-surface font-headline-lg text-headline-lg select-none">
+                                        AR
+                                    </div>
+                                    <span
+                                        class="absolute -bottom-2 -right-2 bg-secondary-container text-on-surface font-label-sm text-label-sm px-space-xs py-0 border-[2px] border-black shadow-[1.5px_1.5px_0px_#000000]">
+                                        CAPT
+                                    </span>
+                                </div>
+                                <div class="flex flex-col gap-space-xs min-w-0">
+                                    <div class="flex items-center gap-space-xs">
+                                        <span
+                                            class="font-code text-code bg-surface-container-highest px-space-xs border border-black uppercase font-bold">CALLSIGN:
+                                            VORTEX</span>
+                                        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    </div>
+                                    <h2
+                                        class="font-headline-md text-headline-md text-on-surface leading-tight truncate">
+                                        Alex Rivera</h2>
+                                    <p class="font-body-sm text-body-sm text-on-surface-variant">Lead Coder &amp;
+                                        Syndicate Captain • TECH MAFIA [ACME-8492]</p>
+                                </div>
+                            </div>
+                            <!-- Form Fields -->
+                            <form class="flex flex-col gap-space-md" onsubmit="event.preventDefault()">
+                                <!-- Field 1: Codename -->
+                                <div class="flex flex-col gap-space-xs">
+                                    <label
+                                        class="font-label-md text-label-md uppercase text-on-surface flex items-center justify-between"
+                                        for="codename">
+                                        <span>OPERATIVE CODENAME</span>
+                                        <span class="font-code text-code text-on-surface-variant font-normal">PUBLIC
+                                            SYNDICATE HANDLE</span>
+                                    </label>
+                                    <input
+                                        class="bg-surface-container-lowest text-on-surface font-headline-sm text-headline-sm px-space-md py-space-sm border-[2.5px] border-black shadow-[3px_3px_0px_#000000] focus:outline-none focus:shadow-[4.5px_4.5px_0px_#000000] transition-all"
+                                        id="codename" type="text" value="Alex Rivera" />
+                                </div>
+                                <!-- Field 2: Operational Email -->
+                                <div class="flex flex-col gap-space-xs">
+                                    <label
+                                        class="font-label-md text-label-md uppercase text-on-surface flex items-center justify-between"
+                                        for="op-email">
+                                        <span>OPERATIONAL EMAIL</span>
+                                        <span
+                                            class="font-label-sm text-label-sm text-secondary uppercase font-bold">VERIFIED
+                                            GPG</span>
+                                    </label>
+                                    <input
+                                        class="bg-surface-container-lowest text-on-surface font-body-md text-body-md px-space-md py-space-sm border-[2.5px] border-black shadow-[3px_3px_0px_#000000] focus:outline-none focus:shadow-[4.5px_4.5px_0px_#000000] transition-all font-code"
+                                        id="op-email" type="email" value="alex@acme.studio" />
+                                </div>
+                                <!-- Field 3: Squad Badge (Locked) -->
+                                <div class="flex flex-col gap-space-xs">
+                                    <label
+                                        class="font-label-md text-label-md uppercase text-on-surface flex items-center justify-between">
+                                        <span>SYNDICATE SQUAD ASSIGNMENT</span>
+                                        <span
+                                            class="inline-flex items-center gap-space-xs px-space-xs py-0 bg-primary-container text-on-surface font-label-sm border border-black">
+                                            <span class="material-symbols-outlined text-[12px]">lock</span>
+                                            LOCKED BY ADMIN
+                                        </span>
+                                    </label>
+                                    <div
+                                        class="bg-surface-container-high text-on-surface font-code text-code px-space-md py-space-sm border-[2.5px] border-black shadow-[3px_3px_0px_#000000] flex items-center justify-between cursor-not-allowed select-none">
+                                        <span>TEAM-8492 (PHANTOM CORE)</span>
+                                        <span
+                                            class="font-label-sm text-label-sm uppercase bg-black text-white px-space-xs py-0.5">SLOT
+                                            #01</span>
+                                    </div>
+                                </div>
+                                <!-- Field 4: Specialization Dropdown -->
+                                <div class="flex flex-col gap-space-xs">
+                                    <label class="font-label-md text-label-md uppercase text-on-surface"
+                                        for="specialization">
+                                        FORENSIC SPECIALIZATION
+                                    </label>
+                                    <div class="relative">
+                                        <select
+                                            class="w-full bg-surface-container-lowest text-on-surface font-body-md text-body-md px-space-md py-space-sm border-[2.5px] border-black shadow-[3px_3px_0px_#000000] appearance-none focus:outline-none focus:shadow-[4.5px_4.5px_0px_#000000] transition-all cursor-pointer"
+                                            id="specialization">
+                                            <option selected="">Memory Injection &amp; C Binary Patching</option>
+                                            <option>Zero-Day Heap Spray Exploitation</option>
+                                            <option>Distributed Kernel Concurrency Race Conditions</option>
+                                            <option>Reverse Engineering Cryptographic Ratchets</option>
+                                        </select>
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-space-md text-on-surface">
+                                            <span class="material-symbols-outlined text-[20px]">arrow_drop_down</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Simple Tactile Micro-Interactions
+            const copyBtn = document.getElementById('copy-btn');
+            const copyLabel = document.getElementById('copy-label');
+            if (copyBtn && copyLabel) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard?.writeText('TEAM-8492-X9Q8-MAFIA');
+                    const originalText = copyLabel.textContent;
+                    copyLabel.textContent = 'COPIED!';
+                    copyBtn.classList.add('bg-secondary-container');
+                    setTimeout(() => {
+                        copyLabel.textContent = originalText;
+                        copyBtn.classList.remove('bg-secondary-container');
+                    }, 1500);
+                });
+            }
+
+            // Theme selection feedback
+            const themeCards = document.querySelectorAll('.theme-card');
+            themeCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    themeCards.forEach(c => {
+                        c.classList.remove('ring-2', 'ring-black');
+                    });
+                    card.classList.add('ring-2', 'ring-black');
+                });
+            });
+
+            // Save changes button feedback
+            const saveBtn = document.getElementById('save-btn');
+            if (saveBtn) {
+                saveBtn.addEventListener('click', () => {
+                    const originalContent = saveBtn.innerHTML;
+                    saveBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span> SAVED!';
+                    saveBtn.classList.replace('bg-primary-container', 'bg-secondary-container');
+                    setTimeout(() => {
+                        saveBtn.innerHTML = originalContent;
+                        saveBtn.classList.replace('bg-secondary-container', 'bg-primary-container');
+                    }, 1800);
+                });
+            }
+        </script>
+    </main>
+    <footer class="w-full bg-surface-container border-t-[3px] border-black mt-margin py-space-xl">
+        <div class="max-w-[1400px] mx-auto px-gutter">
+            <div
+                class="flex flex-col md:flex-row items-center justify-between gap-space-lg pb-space-lg border-b-[2px] border-black">
+                <div class="flex flex-col gap-space-xs text-center md:text-left"><span
+                        class="font-headline-sm text-headline-sm text-on-surface uppercase tracking-tight">TECH MAFIA •
+                        INTRUSION DIRECTIVE</span><span
+                        class="font-body-sm text-body-sm text-on-surface-variant">High-stakes distributed forensic cyber
+                        competition platform. Find the hacker before time expires.</span></div>
+                <div class="flex flex-wrap items-center justify-center gap-space-sm">
+                    <div
+                        class="px-space-md py-space-xs bg-surface-container-lowest border-[2px] border-black shadow-[2px_2px_0px_#000000] font-code text-code text-on-surface">
+                        SERVER_NODE: TOKYO-09</div>
+                    <div
+                        class="px-space-md py-space-xs bg-surface-container-lowest border-[2px] border-black shadow-[2px_2px_0px_#000000] font-code text-code text-on-surface">
+                        FIREWALL: ARMED</div>
+                    <div
+                        class="px-space-md py-space-xs bg-primary-container border-[2px] border-black shadow-[2px_2px_0px_#000000] font-code text-code text-on-surface">
+                        LATENCY: 18MS</div>
+                </div>
+            </div>
+            <div class="pt-space-md flex flex-col sm:flex-row items-center justify-between gap-space-sm text-center">
+                <p class="font-body-sm text-body-sm text-on-surface-variant">© 2025 Tech Mafia Cyber Syndicate. System
+                    specifications calibrated under neo-brutalist protocol.</p>
+                <div class="flex items-center gap-space-md"><span
+                        class="font-label-sm text-label-sm uppercase text-on-surface">DEFENSE_CLEARANCE_IV</span><span
+                        class="w-2 h-2 rounded-full bg-primary border border-black"></span></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
