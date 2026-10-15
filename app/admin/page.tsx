@@ -68,6 +68,25 @@ type StateResponse = {
   standings: StandingRow[];
 };
 
+type JudgeResult = {
+  accepted: boolean;
+  status: string;
+  statusId: number;
+  engine: string;
+  latencyMs: number;
+  stdout: string;
+  stderr: string;
+  compileOutput: string;
+  time: string | null;
+  memory: number | null;
+  config: {
+    mode: string;
+    url: string;
+    fallbackEnabled: boolean;
+    concurrencyMax: number;
+  };
+};
+
 const PHASES = ["lobby", "briefing", "coding", "attack", "repair", "testing", "complete"];
 
 /* ── page ────────────────────────────────────────────────── */
@@ -79,7 +98,7 @@ export default function AdminPage() {
   const [state, setState] = useState<StateResponse | null>(null);
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState("");
-  const [tab, setTab] = useState<"overview" | "teams" | "matches" | "fairplay">("overview");
+  const [tab, setTab] = useState<"overview" | "teams" | "matches" | "fairplay" | "judge">("overview");
 
   const refresh = useCallback(async () => {
     const res = await apiGet<StateResponse>("/api/admin/state");
@@ -225,7 +244,7 @@ export default function AdminPage() {
           </div>
 
           <div className="flex flex-wrap gap-space-xs">
-            {(["overview", "teams", "matches", "fairplay"] as const).map((t) => (
+            {(["overview", "teams", "matches", "fairplay", "judge"] as const).map((t) => (
               <button
                 key={t}
                 type="button"
@@ -236,7 +255,7 @@ export default function AdminPage() {
                     : "bg-surface-container-lowest"
                 }`}
               >
-                {t === "fairplay" ? "Fair play" : t}
+                {t === "fairplay" ? "Fair play" : t === "judge" ? "Judge test" : t}
               </button>
             ))}
           </div>
@@ -247,6 +266,7 @@ export default function AdminPage() {
           ) : null}
           {tab === "teams" ? <Teams s={s} act={act} busy={busy} /> : null}
           {tab === "fairplay" ? <FairPlay s={s} /> : null}
+          {tab === "judge" ? <JudgeTest /> : null}
         </>
       ) : (
         <Spinner />
@@ -666,5 +686,160 @@ function FairPlay({ s }: { s: StateResponse }) {
         Use the Teams tab to flag a team or disqualify a participant.
       </span>
     </Card>
+  );
+}
+
+/* ── judge self-test ─────────────────────────────────────── */
+
+const SAMPLE_SUM = `#include <stdio.h>
+int main() {
+    int a, b;
+    scanf("%d %d", &a, &b);
+    printf("%d", a + b);
+    return 0;
+}
+`;
+
+const SAMPLE_BROKEN = `#include <stdio.h>
+int main() {
+    printf("hi"  // missing );
+    return 0;
+}
+`;
+
+function JudgeTest() {
+  const [source, setSource] = useState(SAMPLE_SUM);
+  const [stdin, setStdin] = useState("2 3");
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<JudgeResult | null>(null);
+  const [error, setError] = useState("");
+
+  async function run() {
+    setBusy(true);
+    setError("");
+    setResult(null);
+    const res = await apiPost<JudgeResult>("/api/admin/judge-test", { source, stdin });
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error);
+      return;
+    }
+    setResult(res.data);
+  }
+
+  const tone = result
+    ? result.accepted
+      ? "bg-secondary-container"
+      : result.status === "internal_error"
+        ? "bg-tertiary-fixed"
+        : "bg-error-container"
+    : "";
+
+  return (
+    <div className="flex flex-col gap-space-md">
+      <Card className="p-space-md flex flex-col gap-space-sm">
+        <div className="flex flex-wrap items-center justify-between gap-space-sm">
+          <h2 className="font-headline-sm uppercase">Judge test</h2>
+          <span className="font-code text-body-sm text-on-surface-variant">
+            Write C, run it on the same checker participants use.
+          </span>
+        </div>
+        <p className="font-code text-body-sm text-on-surface-variant">
+          This shows RAW compiler output and which engine answered — players never see this.
+          Press “Run test”: if you get a result below, the checker is working.
+        </p>
+
+        <div className="flex flex-wrap items-end gap-space-sm">
+          <div className="flex flex-col gap-space-xs min-w-[220px]">
+            <Label hint="Optional program input">stdin</Label>
+            <Input value={stdin} onChange={(e) => setStdin(e.target.value)} placeholder="e.g. 2 3" />
+          </div>
+          <div className="flex flex-wrap gap-space-xs">
+            <Btn variant="ghost" onClick={() => setSource(SAMPLE_SUM)} type="button">
+              Sample: sum
+            </Btn>
+            <Btn variant="ghost" onClick={() => setSource(SAMPLE_BROKEN)} type="button">
+              Sample: broken
+            </Btn>
+          </div>
+        </div>
+
+        <Label>C source</Label>
+        <textarea
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+          spellCheck={false}
+          rows={12}
+          className="w-full px-space-md py-space-sm bg-surface-container-lowest text-on-surface font-code text-code border-[2.5px] border-black focus:outline-none focus:shadow-[4px_4px_0px_#000] focus:-translate-x-[1px] focus:-translate-y-[1px] transition-all resize-y"
+        />
+
+        <div className="flex flex-wrap items-center gap-space-sm">
+          <Btn variant="dark" onClick={() => void run()} disabled={busy} type="button">
+            {busy ? <Spinner /> : null} Run test
+          </Btn>
+          {result ? (
+            <span className="font-code text-body-sm text-on-surface-variant">
+              judged in {result.latencyMs} ms
+            </span>
+          ) : null}
+        </div>
+      </Card>
+
+      {error ? <Alert tone="error">{error}</Alert> : null}
+
+      {result ? (
+        <Card className={`p-space-md flex flex-col gap-space-sm ${tone}`}>
+          <div className="flex flex-wrap items-center gap-space-sm">
+            <span className="px-space-sm py-space-xs border-[2.5px] border-black font-code text-label-md uppercase">
+              {result.accepted ? "✓ accepted" : `✗ ${result.status}`}
+            </span>
+            <span className="font-code text-body-sm">
+              engine: <b>{result.engine}</b>
+            </span>
+            <span className="font-code text-body-sm">{result.latencyMs} ms</span>
+            {result.time ? <span className="font-code text-body-sm">cpu {result.time}s</span> : null}
+            {result.memory ? <span className="font-code text-body-sm">{result.memory} KB</span> : null}
+          </div>
+
+          {result.stdout ? (
+            <div className="flex flex-col gap-space-xs">
+              <Label>stdout</Label>
+              <pre className="p-space-sm bg-inverse-surface text-[#f4eeda] font-code text-code border-[2.5px] border-black overflow-x-auto whitespace-pre-wrap">
+                {result.stdout}
+              </pre>
+            </div>
+          ) : null}
+
+          {result.compileOutput ? (
+            <div className="flex flex-col gap-space-xs">
+              <Label hint="raw — players never see this">compiler output</Label>
+              <pre className="p-space-sm bg-inverse-surface text-[#f4eeda] font-code text-code border-[2.5px] border-black overflow-x-auto whitespace-pre-wrap">
+                {result.compileOutput}
+              </pre>
+            </div>
+          ) : null}
+
+          {result.stderr ? (
+            <div className="flex flex-col gap-space-xs">
+              <Label>stderr</Label>
+              <pre className="p-space-sm bg-inverse-surface text-[#f4eeda] font-code text-code border-[2.5px] border-black overflow-x-auto whitespace-pre-wrap">
+                {result.stderr}
+              </pre>
+            </div>
+          ) : null}
+
+          {!result.stdout && !result.compileOutput && !result.stderr ? (
+            <span className="font-code text-body-sm">
+              {result.accepted ? "Ran successfully (no output)." : "No output produced."}
+            </span>
+          ) : null}
+
+          <span className="font-code text-body-sm text-on-surface-variant">
+            judge: {result.config.mode} · {result.config.url} · concurrency {result.config.concurrencyMax}
+            {result.config.fallbackEnabled ? " · auto-failover on" : " · failover off"}
+          </span>
+        </Card>
+      ) : null}
+    </div>
   );
 }
