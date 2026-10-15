@@ -449,6 +449,51 @@ function Matches({ s, busy, act }: { s: StateResponse; busy: string; act: Act })
           >
             {busy === "Advance all" ? <Spinner /> : null} Advance all matches →
           </Btn>
+          <Btn
+            variant="primary"
+            onClick={() =>
+              void act("Start coding", "/api/admin/match/phase", {
+                all: true,
+                action: "set",
+                phase: "coding",
+              })
+            }
+            disabled={busy === "Start coding"}
+          >
+            {busy === "Start coding" ? <Spinner /> : null} ▶ Start coding (all)
+          </Btn>
+          <Btn
+            variant="danger"
+            onClick={() => {
+              if (
+                !window.confirm(
+                  "Clear all LIVE (unfinished) matches and free their teams so you can start a clean round?",
+                )
+              ) {
+                return;
+              }
+              void act("Reset live", "/api/admin/match/reset", { scope: "live" });
+            }}
+            disabled={busy === "Reset live"}
+          >
+            {busy === "Reset live" ? <Spinner /> : null} ⟲ Reset round (live)
+          </Btn>
+          <Btn
+            variant="danger"
+            onClick={() => {
+              if (
+                !window.confirm(
+                  "Wipe EVERY match, including completed ones, and free their teams? This cannot be undone.",
+                )
+              ) {
+                return;
+              }
+              void act("Reset all", "/api/admin/match/reset", { scope: "all" });
+            }}
+            disabled={busy === "Reset all"}
+          >
+            {busy === "Reset all" ? <Spinner /> : null} ⟲ Wipe ALL matches
+          </Btn>
         </div>
       </Card>
 
