@@ -41,9 +41,21 @@ export async function POST(req: Request) {
   if (!problem) return fail("Problem not found", 404);
 
   const tests: TestCase[] = problem.publicTests ?? [];
-  const { passed, total, compileFailed } = await runCTests(match.code.current, tests, {
-    timeLimitSeconds: 4,
-  });
+  const { passed, total, compileFailed, infrastructureError } = await runCTests(
+    match.code.current,
+    tests,
+    { timeLimitSeconds: 4 },
+  );
+
+  // Judge unreachable (both engines) — don't blame the participant's code.
+  if (infrastructureError) {
+    return ok({
+      passed: 0,
+      total: tests.length,
+      status: "busy",
+      message: "The code checker is busy right now. Please try again in a few seconds.",
+    });
+  }
 
   const allPassed = total > 0 && passed === total;
   const message = allPassed

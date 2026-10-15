@@ -47,6 +47,17 @@ type MatchRow = {
   config: { difficulty: string };
 };
 
+type StandingRow = {
+  teamId: string;
+  name: string;
+  matches: number;
+  wins: number;
+  coderPoints: number;
+  detectivePoints: number;
+  totalPoints: number;
+  status: string;
+};
+
 type StateResponse = {
   teams: TeamRow[];
   matches: MatchRow[];
@@ -54,6 +65,7 @@ type StateResponse = {
   violations: { id: string; type: string; detail: string; disqualified: boolean; at: string; user: string; team: string }[];
   presets: Record<string, unknown>;
   counts: { teams: number; ready: number; matches: number; problems: number };
+  standings: StandingRow[];
 };
 
 const PHASES = ["lobby", "briefing", "coding", "attack", "repair", "testing", "complete"];
@@ -113,7 +125,8 @@ export default function AdminPage() {
       setNotice(`✗ ${res.error}`);
       return;
     }
-    setNotice(`✓ ${label} done.`);
+    const msg = typeof res.data?.message === "string" ? res.data.message : `${label} done.`;
+    setNotice(`✓ ${msg}`);
     void refresh();
   }
 
@@ -246,48 +259,104 @@ export default function AdminPage() {
 
 function Overview({ s }: { s: StateResponse }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
-      <Card className="p-space-md flex flex-col gap-space-sm">
-        <h2 className="font-headline-sm uppercase">Problems</h2>
-        {s.problems.length === 0 ? (
-          <Alert tone="info">
-            No problems seeded yet. Click “Seed data”.
-          </Alert>
-        ) : (
-          s.problems.map((p) => (
-            <div
-              key={p.key}
-              className="flex items-center justify-between font-code text-body-sm border-b border-black/10 py-1"
-            >
-              <span>
-                #{p.number} {p.title}
-              </span>
-              <span className="text-on-surface-variant">
-                {p.difficulty} · {p.publicTests} pub / {p.hiddenTests} hid
-              </span>
-            </div>
-          ))
-        )}
-      </Card>
+    <div className="flex flex-col gap-space-md">
+      <Standings s={s} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+        <Card className="p-space-md flex flex-col gap-space-sm">
+          <h2 className="font-headline-sm uppercase">Problems</h2>
+          {s.problems.length === 0 ? (
+            <Alert tone="info">
+              No problems seeded yet. Click “Seed data”.
+            </Alert>
+          ) : (
+            s.problems.map((p) => (
+              <div
+                key={p.key}
+                className="flex items-center justify-between font-code text-body-sm border-b border-black/10 py-1"
+              >
+                <span>
+                  #{p.number} {p.title}
+                </span>
+                <span className="text-on-surface-variant">
+                  {p.difficulty} · {p.publicTests} pub / {p.hiddenTests} hid
+                </span>
+              </div>
+            ))
+          )}
+        </Card>
 
-      <Card className="p-space-md flex flex-col gap-space-sm">
-        <h2 className="font-headline-sm uppercase">Recent violations</h2>
-        {s.violations.length === 0 ? (
-          <span className="font-code text-body-sm text-on-surface-variant">
-            None recorded. Clean arena.
-          </span>
-        ) : (
-          s.violations.slice(0, 10).map((v) => (
-            <div key={v.id} className="font-code text-body-sm border-b border-black/10 py-1">
-              <span className={v.disqualified ? "text-error font-bold" : ""}>
-                {v.type}
-              </span>{" "}
-              · {v.user} ({v.team})
-            </div>
-          ))
-        )}
-      </Card>
+        <Card className="p-space-md flex flex-col gap-space-sm">
+          <h2 className="font-headline-sm uppercase">Recent violations</h2>
+          {s.violations.length === 0 ? (
+            <span className="font-code text-body-sm text-on-surface-variant">
+              None recorded. Clean arena.
+            </span>
+          ) : (
+            s.violations.slice(0, 10).map((v) => (
+              <div key={v.id} className="font-code text-body-sm border-b border-black/10 py-1">
+                <span className={v.disqualified ? "text-error font-bold" : ""}>
+                  {v.type}
+                </span>{" "}
+                · {v.user} ({v.team})
+              </div>
+            ))
+          )}
+        </Card>
+      </div>
     </div>
+  );
+}
+
+/** Aggregated wins + points across finalized matches — the running winner table. */
+function Standings({ s }: { s: StateResponse }) {
+  const rows = s.standings ?? [];
+  const decided = rows.some((r) => r.matches > 0);
+  return (
+    <Card className="p-space-md flex flex-col gap-space-sm">
+      <div className="flex flex-wrap items-center justify-between gap-space-sm">
+        <h2 className="font-headline-sm uppercase">Standings</h2>
+        <span className="font-code text-body-sm text-on-surface-variant">
+          {decided ? "Ranked by total points" : "No finalized matches yet"}
+        </span>
+      </div>
+      {rows.length === 0 ? (
+        <span className="font-code text-body-sm text-on-surface-variant">No teams yet.</span>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full font-code text-body-sm">
+            <thead>
+              <tr className="text-left text-on-surface-variant uppercase">
+                <th className="py-1 pr-space-sm">#</th>
+                <th className="py-1 pr-space-sm">Team</th>
+                <th className="py-1 pr-space-sm">Played</th>
+                <th className="py-1 pr-space-sm">Wins</th>
+                <th className="py-1 pr-space-sm">Coder</th>
+                <th className="py-1 pr-space-sm">Detective</th>
+                <th className="py-1">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r, i) => (
+                <tr key={r.teamId} className="border-t border-black/10">
+                  <td className="py-1 pr-space-sm">{i + 1}</td>
+                  <td className="py-1 pr-space-sm">
+                    {r.name}
+                    {r.status === "flagged" ? (
+                      <span className="text-error font-bold"> ⚑</span>
+                    ) : null}
+                  </td>
+                  <td className="py-1 pr-space-sm">{r.matches}</td>
+                  <td className="py-1 pr-space-sm">{r.wins}</td>
+                  <td className="py-1 pr-space-sm">{r.coderPoints}</td>
+                  <td className="py-1 pr-space-sm">{r.detectivePoints}</td>
+                  <td className="py-1 font-bold">{r.totalPoints}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Card>
   );
 }
 
@@ -299,9 +368,70 @@ function Matches({ s, busy, act }: { s: StateResponse; busy: string; act: Act })
   const [detectiveId, setDetectiveId] = useState("");
   const [preset, setPreset] = useState("rulebook20");
   const [label, setLabel] = useState("");
+  const [autoPreset, setAutoPreset] = useState("rulebook20");
+  const [autoProblem, setAutoProblem] = useState("");
 
   return (
     <div className="flex flex-col gap-space-md">
+      <Card className="p-space-md flex flex-col gap-space-sm border-[3px] border-black">
+        <h2 className="font-headline-sm uppercase">⚡ Start a round — all teams</h2>
+        <p className="font-code text-body-sm text-on-surface-variant">
+          Pairs every team that has a joined member at random (each team plays at most once),
+          assigns the same problem to every match, and creates them in the lobby. Teams already
+          in a match are skipped; an odd team out gets a bye.
+        </p>
+        {s.problems.length === 0 ? (
+          <Alert tone="error">Seed problems first.</Alert>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-space-sm items-end">
+            <div className="flex flex-col gap-space-xs">
+              <Label>Problem (same for all)</Label>
+              <Select value={autoProblem} onChange={(e) => setAutoProblem(e.target.value)}>
+                <option value="">Auto — random problem</option>
+                {s.problems.map((p) => (
+                  <option key={p.key} value={p.key}>
+                    #{p.number} {p.title}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="flex flex-col gap-space-xs">
+              <Label>Preset</Label>
+              <Select value={autoPreset} onChange={(e) => setAutoPreset(e.target.value)}>
+                {Object.keys(s.presets).map((k) => (
+                  <option key={k} value={k}>
+                    {k}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <Btn
+              variant="secondary"
+              onClick={() =>
+                void act("Start round", "/api/admin/match/auto", {
+                  presetKey: autoPreset,
+                  problemKey: autoProblem || undefined,
+                })
+              }
+              disabled={busy === "Start round"}
+            >
+              {busy === "Start round" ? <Spinner /> : null} Start round for all teams
+            </Btn>
+          </div>
+        )}
+        <div className="flex flex-wrap gap-space-xs">
+          <Btn
+            variant="dark"
+            onClick={() =>
+              void act("Advance all", "/api/admin/match/phase", { all: true, action: "advance" })
+            }
+            disabled={busy === "Advance all"}
+          >
+            {busy === "Advance all" ? <Spinner /> : null} Advance all matches →
+          </Btn>
+        </div>
+      </Card>
+
       <Card className="p-space-md flex flex-col gap-space-sm">
         <h2 className="font-headline-sm uppercase">Create match</h2>
         {s.problems.length === 0 ? (

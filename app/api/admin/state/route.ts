@@ -3,6 +3,7 @@ import { Match, Problem, Team, User, Violation } from "@/lib/models";
 import { ok, fail } from "@/lib/http";
 import { requireAdmin } from "@/lib/admin";
 import { ATTACK_CATALOGUE, MATCH_PRESETS } from "@/lib/game/config";
+import { publicBoard } from "@/lib/public";
 
 export async function GET() {
   const denied = await requireAdmin();
@@ -22,6 +23,8 @@ export async function GET() {
     const userById = new Map(users.map((u) => [String(u._id), u]));
 
     const cutoff = Date.now() - 20_000;
+
+    const standings = (await publicBoard()).standings;
 
     return ok({
       teams: teams.map((t) => ({
@@ -91,6 +94,7 @@ export async function GET() {
         matches: matches.length,
         problems: problems.length,
       },
+      standings,
     });
   } catch (e) {
     return fail(e instanceof Error ? e.message : "Admin state failed", 500);

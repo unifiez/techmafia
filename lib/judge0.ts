@@ -2,11 +2,22 @@ import { env, isJudgeConfigured } from "./env";
 import type { TestCase } from "./models";
 
 /**
- * Judge0 CE (RapidAPI) client.
+ * Code judge client — resilient, keyless by default.
  *
- * IMPORTANT: never surface raw compiler output to players. The public API
- * layer collapses results to pass/fail only. Raw fields are returned here so
- * the organizer console can inspect them.
+ * Primary: Judge0 CE (free public `https://ce.judge0.com`, or a RapidAPI key, or
+ * a self-hosted instance). Backup: Wandbox (also free & keyless). If the
+ * primary judge is unreachable or rate-limited, the backup runs the code, so
+ * participants can always be checked.
+ *
+ * Resilience features:
+ *  - a process-wide concurrency gate so a burst of runs doesn't flood the judge;
+ *  - retry with exponential backoff on 429 / 5xx / network errors;
+ *  - automatic failover to Wandbox;
+ *  - callers can distinguish "judge unavailable" from "your code is wrong".
+ *
+ * IMPORTANT: never surface raw compiler output to players. The public API layer
+ * collapses results to pass/fail only. Raw fields are returned here so the
+ * organizer console can inspect them.
  */
 
 export type JudgeStatus =
@@ -28,6 +39,8 @@ export type JudgeRunResult = {
   time?: string;
   memory?: number;
   ok: boolean;
+  /** Which engine produced the result. */
+  engine?: "judge0" | "wandbox";
 };
 
 export type TestRunResult = {
@@ -64,6 +77,37 @@ function b64encode(value: string): string {
   return Buffer.from(value, "utf8").toString("base64");
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/* ── process-wide concurrency gates ──────────────────────── */
+
+function makeGate(max: number) {
+  let active = 0;
+  const waiters: (() => void)[] = [];
+  return async function run<T>(fn: () => Promise<T>): Promise<T> {
+    if (active < max) {
+      active += 1;
+    } else {
+      await new Promise<void>((resolve) => waiters.push(resolve));
+      active += 1;
+    }
+    try {
+      return await fn();
+    } finally {
+      active -= 1;
+      const next = waiters.shift();
+      if (next) next();
+    }
+  };
+}
+
+/** Protects the primary Judge0 instance from bursts of runs/submits. */
+const withPrimarySlot = makeGate(Math.max(1, env.judge0.concurrencyMax));
+/** Wandbox tolerates only a couple of simultaneous requests at once. */
+const withFallbackSlot = makeGate(Math.max(1, env.judge0.fallbackConcurrencyMax));
+
+/* ── primary judge: Judge0 CE ────────────────────────────── */
+
 type RawJudgeResponse = {
   status?: { id?: number; description?: string };
   stdout?: string | null;
@@ -74,23 +118,32 @@ type RawJudgeResponse = {
   memory?: number | null;
 };
 
-export async function runC(
-  source: string,
-  stdin = "",
-  opts: { timeLimitSeconds?: number; base64?: boolean } = {},
-): Promise<JudgeRunResult> {
-  if (!isJudgeConfigured()) {
-    return {
-      status: "not_configured",
-      statusId: 0,
-      stdout: "",
-      stderr: "",
-      compileOutput: "",
-      ok: false,
-    };
-  }
+const NOT_CONFIGURED: JudgeRunResult = {
+  status: "not_configured",
+  statusId: 0,
+  stdout: "",
+  stderr: "",
+  compileOutput: "",
+  ok: false,
+};
 
-  const base64 = opts.base64 ?? false;
+function internalError(detail = ""): JudgeRunResult {
+  return {
+    status: "internal_error",
+    statusId: 0,
+    stdout: "",
+    stderr: detail,
+    compileOutput: "",
+    ok: false,
+  };
+}
+
+async function callJudge0(
+  source: string,
+  stdin: string,
+  opts: { timeLimitSeconds?: number; base64?: boolean },
+): Promise<JudgeRunResult> {
+  const base64 = opts.base64 ?? env.judge0.mode === "public";
   const query = new URLSearchParams({
     base64_encoded: String(base64),
     wait: "true",
@@ -106,109 +159,270 @@ export async function runC(
     memory_limit: 128000,
   };
 
-  let res: Response;
-  try {
-    res = await fetch(`${env.judge0.url}/submissions?${query.toString()}`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": env.judge0.key,
-        "X-RapidAPI-Host": env.judge0.host,
-      },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
-  } catch {
+  const headers: Record<string, string> = { "content-type": "application/json" };
+  if (env.judge0.mode === "rapidapi") {
+    headers["X-RapidAPI-Key"] = env.judge0.key;
+    headers["X-RapidAPI-Host"] = env.judge0.host;
+  } else if (env.judge0.authToken) {
+    headers["X-Auth-Token"] = env.judge0.authToken;
+  }
+
+  let lastError = "judge unavailable";
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let res: Response;
+    try {
+      res = await fetch(`${env.judge0.url}/submissions?${query.toString()}`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify(body),
+        cache: "no-store",
+        signal: AbortSignal.timeout(20_000),
+      });
+    } catch (e) {
+      lastError = e instanceof Error ? e.message : "network error";
+      if (attempt < 2) {
+        await sleep(300 * 2 ** attempt);
+        continue;
+      }
+      return internalError(lastError);
+    }
+
+    // Retry only on transient conditions.
+    if (res.status === 429 || res.status >= 500) {
+      lastError = `judge http ${res.status}`;
+      if (attempt < 2) {
+        await sleep(400 * 2 ** attempt);
+        continue;
+      }
+      return internalError(lastError);
+    }
+    if (!res.ok) return internalError(`judge http ${res.status}`);
+
+    let data: RawJudgeResponse;
+    try {
+      data = (await res.json()) as RawJudgeResponse;
+    } catch {
+      lastError = "bad judge response";
+      if (attempt < 2) {
+        await sleep(300 * 2 ** attempt);
+        continue;
+      }
+      return internalError(lastError);
+    }
+
+    const decode = (v: string | null | undefined) =>
+      base64 ? Buffer.from(v ?? "", "base64").toString("utf8") : (v ?? "");
+    const statusId = data.status?.id ?? 0;
+
     return {
-      status: "internal_error",
-      statusId: 0,
-      stdout: "",
+      status: mapStatus(statusId),
+      statusId,
+      stdout: decode(data.stdout),
+      stderr: decode(data.stderr) || decode(data.message),
+      compileOutput: decode(data.compile_output),
+      time: data.time ?? undefined,
+      memory: data.memory ?? undefined,
+      ok: statusId === 3,
+      engine: "judge0",
+    };
+  }
+
+  return internalError(lastError);
+}
+
+/* ── backup judge: Wandbox ───────────────────────────────── */
+
+type RawWandboxResponse = {
+  status?: string;
+  signal?: string;
+  compiler_output?: string;
+  compiler_error?: string;
+  program_output?: string;
+  program_error?: string;
+  program_message?: string;
+};
+
+async function callWandbox(
+  source: string,
+  stdin: string,
+): Promise<JudgeRunResult | null> {
+  if (!env.judge0.fallbackEnabled || !env.judge0.wandboxUrl) return null;
+  const payload = JSON.stringify({
+    compiler: env.judge0.wandboxCompiler,
+    code: source,
+    stdin,
+    "compiler-option-raw": "",
+    "runtime-option-raw": "",
+  });
+
+  // Wandbox aggressively rate-limits (429); back off and retry a few times.
+  for (let attempt = 0; attempt < 4; attempt++) {
+    let res: Response;
+    try {
+      res = await fetch(env.judge0.wandboxUrl, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: payload,
+        cache: "no-store",
+        signal: AbortSignal.timeout(20_000),
+      });
+    } catch {
+      if (attempt < 3) {
+        await sleep(400 * 2 ** attempt);
+        continue;
+      }
+      return null;
+    }
+
+    if (res.status === 429) {
+      if (attempt < 3) {
+        await sleep(500 * 2 ** attempt);
+        continue;
+      }
+      return null;
+    }
+    if (!res.ok) return null;
+
+    let data: RawWandboxResponse;
+    try {
+      data = (await res.json()) as RawWandboxResponse;
+    } catch {
+      if (attempt < 3) {
+        await sleep(400 * 2 ** attempt);
+        continue;
+      }
+      return null;
+    }
+
+    if (data.compiler_error) {
+      return {
+        status: "compilation_error",
+        statusId: 6,
+        stdout: data.program_output ?? "",
+        stderr: data.compiler_error,
+        compileOutput: data.compiler_error,
+        ok: false,
+        engine: "wandbox",
+      };
+    }
+
+    const out = data.program_output ?? "";
+    const err = data.program_error ?? "";
+    const signal = data.signal ?? "";
+    if (err || signal) {
+      const timedOut = /time|kill|sigkill|alarm/i.test(`${signal} ${err}`);
+      return {
+        status: timedOut ? "time_limit_exceeded" : "runtime_error",
+        statusId: timedOut ? 5 : 7,
+        stdout: out,
+        stderr: err,
+        compileOutput: "",
+        ok: false,
+        engine: "wandbox",
+      };
+    }
+
+    return {
+      status: "accepted",
+      statusId: 3,
+      stdout: out,
       stderr: "",
       compileOutput: "",
-      ok: false,
+      ok: true,
+      engine: "wandbox",
     };
   }
 
-  if (!res.ok) {
-    return {
-      status: "internal_error",
-      statusId: 0,
-      stdout: "",
-      stderr: `judge http ${res.status}`,
-      compileOutput: "",
-      ok: false,
-    };
-  }
+  return null;
+}
 
-  const data = (await res.json()) as RawJudgeResponse;
-  const decode = (v: string | null | undefined) =>
-    base64 ? Buffer.from(v ?? "", "base64").toString("utf8") : (v ?? "");
+/* ── public API ──────────────────────────────────────────── */
 
-  const statusId = data.status?.id ?? 0;
-  const status = mapStatus(statusId);
+export async function runC(
+  source: string,
+  stdin = "",
+  opts: { timeLimitSeconds?: number; base64?: boolean } = {},
+): Promise<JudgeRunResult> {
+  if (!isJudgeConfigured()) return NOT_CONFIGURED;
 
-  return {
-    status,
-    statusId,
-    stdout: decode(data.stdout),
-    stderr: decode(data.stderr) || decode(data.message),
-    compileOutput: decode(data.compile_output),
-    time: data.time ?? undefined,
-    memory: data.memory ?? undefined,
-    ok: statusId === 3,
-  };
+  const primary = await withPrimarySlot(() => callJudge0(source, stdin, opts));
+  if (primary.status !== "internal_error") return primary;
+
+  // Primary failed — try the free backup judge (best-effort, low concurrency).
+  const backup = await withFallbackSlot(() => callWandbox(source, stdin));
+  return backup ?? primary;
 }
 
 function normalise(value: string): string {
   return value.replace(/\r\n/g, "\n").replace(/\s+$/g, "").trim();
 }
 
+function toTestResult(
+  test: TestCase,
+  run: JudgeRunResult,
+): TestRunResult {
+  const ok =
+    run.statusId === 3 && normalise(run.stdout) === normalise(test.expectedOutput);
+  return {
+    name: test.name,
+    ok,
+    status: ok ? "accepted" : run.status === "accepted" ? "wrong_answer" : run.status,
+    expected: test.expectedOutput,
+    got: run.stdout,
+    stderr: run.stderr || run.compileOutput,
+  };
+}
+
 /**
  * Run a list of test cases against the source.
- * Compilation errors short-circuit: every remaining test is marked failed
- * without spending more Judge0 calls.
+ *
+ * The first case runs alone so a compilation error short-circuits (most edits
+ * during the coding phase don't compile — no point spending more judge calls).
+ * Once it runs, the remaining cases run concurrently. When the judge is down
+ * for every case, `infrastructureError` is true so callers can show a friendly
+ * "checker busy, try again" instead of blaming the participant's code.
  */
 export async function runCTests(
   source: string,
   tests: TestCase[],
   opts: { timeLimitSeconds?: number } = {},
-): Promise<{ results: TestRunResult[]; compileFailed: boolean; passed: number; total: number }> {
-  const results: TestRunResult[] = [];
-  let compileFailed = false;
-
-  for (const test of tests) {
-    const run = await runC(source, test.input, opts);
-
-    if (run.status === "compilation_error" || run.status === "not_configured") {
-      compileFailed = run.status === "compilation_error";
-      results.push({
-        name: test.name,
-        ok: false,
-        status: run.status,
-        expected: test.expectedOutput,
-        got: run.stdout,
-        stderr: run.compileOutput || run.stderr,
-      });
-      // Remaining tests can't pass if it doesn't compile.
-      for (const rest of tests.slice(results.length)) {
-        results.push({ name: rest.name, ok: false, status: run.status });
-      }
-      break;
-    }
-
-    const ok =
-      run.statusId === 3 && normalise(run.stdout) === normalise(test.expectedOutput);
-
-    results.push({
-      name: test.name,
-      ok,
-      status: ok ? "accepted" : run.status === "accepted" ? "wrong_answer" : run.status,
-      expected: test.expectedOutput,
-      got: run.stdout,
-      stderr: run.stderr || run.compileOutput,
-    });
+): Promise<{
+  results: TestRunResult[];
+  compileFailed: boolean;
+  passed: number;
+  total: number;
+  infrastructureError: boolean;
+}> {
+  if (tests.length === 0) {
+    return { results: [], compileFailed: false, passed: 0, total: 0, infrastructureError: false };
   }
 
+  const [first, ...rest] = tests;
+  const firstRun = await runC(source, first.input, opts);
+
+  if (
+    firstRun.status === "compilation_error" ||
+    firstRun.status === "not_configured" ||
+    firstRun.status === "internal_error"
+  ) {
+    const compileFailed = firstRun.status === "compilation_error";
+    const results = tests.map((test, i) =>
+      i === 0
+        ? toTestResult(test, firstRun)
+        : { name: test.name, ok: false, status: firstRun.status },
+    );
+    return {
+      results,
+      compileFailed,
+      passed: 0,
+      total: tests.length,
+      infrastructureError: firstRun.status === "internal_error",
+    };
+  }
+
+  const restRuns = await Promise.all(rest.map((t) => runC(source, t.input, opts)));
+  const results = [toTestResult(first, firstRun), ...rest.map((t, i) => toTestResult(t, restRuns[i]))];
   const passed = results.filter((r) => r.ok).length;
-  return { results, compileFailed, passed, total: tests.length };
+
+  return { results, compileFailed: false, passed, total: tests.length, infrastructureError: false };
 }

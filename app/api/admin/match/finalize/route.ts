@@ -49,6 +49,12 @@ export async function POST(req: Request) {
       const hid = await runCTests(match.code.current, problem.hiddenTests ?? [], {
         timeLimitSeconds: 4,
       });
+      if (pub.infrastructureError || hid.infrastructureError) {
+        return fail(
+          "The code checker is busy right now. Please try again in a few seconds.",
+          503,
+        );
+      }
       finalPublicPassed = pub.total > 0 && pub.passed === pub.total;
       hiddenPassed = hid.passed;
       hiddenTotal = hid.total;

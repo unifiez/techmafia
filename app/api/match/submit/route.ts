@@ -1,5 +1,5 @@
 import { Problem } from "@/lib/models";
-import { resolveMatch, validateAndApplyCode } from "@/lib/game/service";
+import { releaseTeams, resolveMatch, validateAndApplyCode } from "@/lib/game/service";
 import { fail, ok, readJson } from "@/lib/http";
 import { runCTests } from "@/lib/judge0";
 import { isJudgeConfigured } from "@/lib/env";
@@ -39,11 +39,24 @@ export async function POST(req: Request) {
   const pub = await runCTests(match.code.current, problem.publicTests ?? [], {
     timeLimitSeconds: 4,
   });
+  // Judge unreachable on every engine — don't record a rejection, just ask to retry.
+  if (pub.infrastructureError) {
+    return fail(
+      "The code checker is busy right now. Please try again in a few seconds.",
+      503,
+    );
+  }
   const pubOk = pub.total > 0 && pub.passed === pub.total;
 
   const hid = await runCTests(match.code.current, problem.hiddenTests ?? [], {
     timeLimitSeconds: 4,
   });
+  if (hid.infrastructureError) {
+    return fail(
+      "The code checker is busy right now. Please try again in a few seconds.",
+      503,
+    );
+  }
   const hidOk = hid.total > 0 && hid.passed === hid.total;
 
   const accepted = pubOk && hidOk;
@@ -70,6 +83,7 @@ export async function POST(req: Request) {
     });
     match.phase = "complete";
     match.endedAt = new Date();
+    await releaseTeams(match);
   }
 
   await match.save();

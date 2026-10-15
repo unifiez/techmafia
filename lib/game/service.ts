@@ -62,13 +62,30 @@ export function viewerRole(match: IMatch, teamId?: string): "coder" | "detective
   return null;
 }
 
+/** Return a finished match's teams to the pairing pool. */
+export async function releaseTeams(match: {
+  coderTeamId?: Types.ObjectId;
+  detectiveTeamId?: Types.ObjectId;
+}): Promise<void> {
+  const ids = [match.coderTeamId, match.detectiveTeamId].filter(
+    (id): id is Types.ObjectId => Boolean(id),
+  );
+  if (ids.length === 0) return;
+  await Team.updateMany({ _id: { $in: ids } }, { $set: { status: "ready" } });
+}
+
 /** Sync phases for a match document, persisting when the phase advances. */
 export async function autoAdvance(
   matchDoc: HydratedDocument<IMatch>,
 ): Promise<boolean> {
   const coderTeam = await loadTeam(matchDoc.coderTeamId);
   const changed = syncPhases(matchDoc, coderMembers(coderTeam));
-  if (changed) await matchDoc.save();
+  if (changed) {
+    await matchDoc.save();
+    // A match that ran out of time may complete during polling — free its teams
+    // so they can be paired again in the next round.
+    if (matchDoc.phase === "complete") await releaseTeams(matchDoc);
+  }
   return changed;
 }
 
